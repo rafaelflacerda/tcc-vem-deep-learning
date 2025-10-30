@@ -1,0 +1,58 @@
+# CMake build files
+/CMakeFiles/
+/Makefile
+/CMakeCache.txt
+/cmake_install.cmake
+/lib/*/CMakeFiles/
+/lib/*/Makefile
+/lib/*/cmake_install.cmake
+
+# Output data
+/data/_output/*
+
+# IDE settings
+/.vscode/*
+
+# Python/middleware specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+venv_polivem/
+.env
+.venv
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Python package files
+*.egg-info/
+*.egg
+dist/
+build/
+middleware/build/
+middleware/dist/
+
+# Python compiled modules
+middleware/polivem/*.so
+middleware/polivem/*.dylib
+middleware/polivem/*.pyd
+middleware/polivem/polivem_py.*
+
+# uv specific
+.uv/
+requirements.lock
+
+# API specific
+api/__pycache__/
+api/*.py[cod]
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# macOS specific
+.DS_Store

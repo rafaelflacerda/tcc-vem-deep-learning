@@ -1,0 +1,288 @@
+classDiagram
+    %% Main Namespaces/Packages
+    namespace solver {
+        class linearElastic2d
+        class beam1d
+        class nonlinear2d
+    }
+    
+    namespace material {
+        class mat
+    }
+    
+    namespace mesh {
+        class beam
+        class datasource
+        class VoronoiMeshGenerator
+        class Geometry
+        class RectangleGeometry
+        class CircleGeometry
+        class PolygonGeometry
+    }
+    
+    namespace delaunay {
+        class Point
+        class Edge
+        class Triangle
+        class DelaunayTriangulation
+        class VoronoiDiagram
+        class VoronoiVertex
+        class VoronoiEdge
+        class VoronoiCell
+    }
+    
+    namespace utils {
+        class operations
+        class integration
+        class logging
+    }
+    
+    %% Classes in material namespace
+    class mat {
+        +double E
+        +double nu
+        +double rho
+        +double Mu, La
+        +setElasticModule(double)
+        +setPoissonCoef(double)
+        +setMaterialDensity(double)
+        +getLameParameters()
+        +build2DElasticity()
+    }
+    
+    %% Classes in mesh namespace
+    class beam {
+        +Eigen::MatrixXd nodes
+        +Eigen::MatrixXi elements
+        +horizontalBarDisc(double, int)
+    }
+    
+    class datasource {
+        +Eigen::MatrixXd nodes
+        +Eigen::MatrixXi elements
+        +Eigen::MatrixXi supp
+        +Eigen::MatrixXi load
+        +double qx, qy
+        +readJson(string)
+        +readJsonBeam(string)
+        +writeOutput()
+        +saveDisplacementsToJson()
+        +calculateAspectRatio()
+        +exportTriangulationToJson()
+        +exportVoronoiToJson()
+        +exportVoronoiMeshToJson()
+    }
+    
+    class Geometry {
+        <<abstract>>
+        +contains(const Point&) bool
+        +getBoundingBox()
+        +getType()
+        +getTypeString()
+    }
+    
+    class RectangleGeometry {
+        -double minX, minY, maxX, maxY
+        +contains(const Point&) bool
+        +getBoundingBox()
+        +getType()
+        +getTypeString()
+    }
+    
+    class CircleGeometry {
+        -Point center
+        -double radius
+        +contains(const Point&) bool
+        +getBoundingBox()
+        +getType()
+        +getTypeString()
+    }
+    
+    class PolygonGeometry {
+        -vector~vertices~
+        +contains(const Point&) bool
+        +getBoundingBox()
+        +getType()
+        +getTypeString()
+    }
+    
+    class VoronoiMeshGenerator {
+        -isPointInGeometry()
+        -generatePoints()
+        -clipVoronoiCellsToGeometry()
+        -addBoundaryPoints()
+        +generateMesh()
+        +convertToEigenMesh()
+    }
+    
+    %% Classes in solver namespace
+    class linearElastic2d {
+        +int order
+        +Eigen::MatrixXi supp
+        +Eigen::MatrixXd nodes
+        +Eigen::MatrixXi elements
+        +Eigen::MatrixXi load
+        +setSupp()
+        +setLoad()
+        +buildNp()
+        +buildNE()
+        +buildConsistency()
+        +buildStability()
+        +buildLocalK()
+        +buildGlobalK()
+        +applyDBC()
+        +applyNBC()
+    }
+    
+    class beam1d {
+        +int order
+        +double I
+        +double area
+        +Eigen::MatrixXd nodes
+        +Eigen::MatrixXi elements
+        +setInertiaMoment()
+        +setArea()
+        +buildLocalK()
+        +buildLocalKPortic()
+        +buildGlobalK()
+        +buildGlobalM()
+        +buildStaticCondensation()
+        +buildGlobalDistributedLoad()
+    }
+    
+    class nonlinear2d {
+        +Eigen::MatrixXd nodes
+        +Eigen::MatrixXi elements
+        +Eigen::MatrixXi supp
+        +Eigen::MatrixXi load
+        +double Mu, La
+        +calculateTaylor5()
+        +localKcTriangle()
+        +localKcQuadrilateral()
+        +buildLocalK()
+        +buildGlobalK()
+        +buildGlobalR()
+        +newtonRaphson()
+        +solve()
+    }
+    
+    %% Classes in delaunay namespace
+    class Point {
+        +double x, y
+        +distanceTo()
+    }
+    
+    class Edge {
+        +Point p1, p2
+    }
+    
+    class Triangle {
+        +Point p1, p2, p3
+        +vector~edges~
+        +calculateCircumcenter()
+        +isPointInCircumcircle()
+    }
+    
+    class DelaunayTriangulation {
+        -vector~triangles~
+        -Triangle superTriangle
+        +createSuperTriangle()
+        +triangulate()
+        +getEdges()
+    }
+    
+    class VoronoiVertex {
+        +Point point
+    }
+    
+    class VoronoiEdge {
+        +VoronoiVertex* v1
+        +VoronoiVertex* v2
+        +Point generator1
+        +Point generator2
+    }
+    
+    class VoronoiCell {
+        +Point generator
+        +vector~vertices~
+        +vector~edges~
+    }
+    
+    class VoronoiDiagram {
+        -vector~vertices~
+        -vector~edges~
+        -vector~cells~
+        -sortVerticesCounterClockwise()
+        +buildFromDelaunay()
+        +getVertices()
+        +getEdges()
+        +getCells()
+    }
+    
+    %% Classes in utils namespace
+    class operations {
+        +calcArea()
+        +calcLength()
+        +calcAngle()
+        +calcCentroid()
+        +computerNormalVector()
+        +getCoordinatesPlane()
+        +assembleMatrix()
+        +assembleVector()
+    }
+    
+    class integration {
+        +Eigen::MatrixXd gaussPoints
+        +Eigen::VectorXd gaussWeights
+        +setGaussParams()
+        +setParamCoords()
+    }
+    
+    class logging {
+        +generateDateString()
+        +generateTimestamp()
+        +buildLogFile()
+    }
+    
+    %% Enums
+    class BeamSolverType {
+        <<enumeration>>
+        GeneralBeam
+        Portic
+    }
+    
+    %% Relationships
+    Geometry <|-- RectangleGeometry
+    Geometry <|-- CircleGeometry
+    Geometry <|-- PolygonGeometry
+    
+    VoronoiMeshGenerator ..> Geometry : uses
+    VoronoiMeshGenerator ..> VoronoiCell : creates
+    VoronoiMeshGenerator ..> Point : uses
+    
+    DelaunayTriangulation o-- Triangle
+    DelaunayTriangulation ..> Point : uses
+    Triangle o-- Edge
+    Triangle *-- Point
+    Edge *-- Point
+    
+    VoronoiDiagram o-- VoronoiVertex
+    VoronoiDiagram o-- VoronoiEdge
+    VoronoiDiagram o-- VoronoiCell
+    VoronoiDiagram ..> DelaunayTriangulation : uses
+    VoronoiCell o-- VoronoiVertex
+    VoronoiCell o-- VoronoiEdge
+    VoronoiCell *-- Point
+    VoronoiEdge *-- VoronoiVertex
+    VoronoiEdge *-- Point
+    VoronoiVertex *-- Point
+    
+    linearElastic2d ..> operations : uses
+    beam1d ..> operations : uses
+    nonlinear2d ..> operations : uses
+    nonlinear2d ..> logging : uses
+    
+    datasource ..> logging : uses
+    datasource ..> Point : uses
+    datasource ..> VoronoiCell : uses
+    datasource ..> Geometry : uses

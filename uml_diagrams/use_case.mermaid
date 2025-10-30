@@ -1,0 +1,62 @@
+flowchart TD
+    %% Actors
+    User(["Engineer/Analyst"])
+    Admin(["Administrator"])
+    
+    %% System boundary
+    subgraph "VEM Solver Software"
+        %% Main use cases
+        UC1["Create Mesh"]
+        UC2["Define Geometry Domain"]
+        UC3["Configure Boundary Conditions"]
+        UC4["Select Solver Type"]
+        UC5["Set Material Parameters"]
+        UC6["Configure VEM Order of Accuracy"]
+        UC7["Run Simulation"]
+        UC8["Visualize Results"]
+        UC8_1["Plot Analysis Charts"]
+        UC9["Export Results"]
+        UC9_1["Export as JSON"]
+        UC9_2["Export as CSV"]
+        UC10["Save Project"]
+        UC11["Load Project"]
+        UC12["Configure Time Scheme"]
+        UC13["Select Problem Type"]
+
+        AdminUC2["Configure System Settings"]
+        
+        %% Specialized solver configuration
+        UC_Elliptic["Configure Elliptic Solver"]
+        UC_Parabolic["Configure Parabolic Solver"]
+        UC_Hyperbolic["Configure Hyperbolic Solver"]
+        
+        %% Include and extend relationships
+        UC1 -.-> |<<include>>| UC2
+        UC4 -.-> |<<include>>| UC6
+        UC4 -.-> |<<include>>| UC13
+        UC13 -.-> |<<extend>>| UC_Elliptic
+        UC13 -.-> |<<extend>>| UC_Parabolic
+        UC13 -.-> |<<extend>>| UC_Hyperbolic
+        UC_Parabolic -.-> |<<include>>| UC12
+        UC7 -.-> |<<include>>| UC4
+        UC7 -.-> |<<include>>| UC3
+        UC7 -.-> |<<include>>| UC5
+    end
+    
+    %% Actor relationships
+    User --> UC1
+    User --> UC3
+    User --> UC4
+    User --> UC5
+    User --> UC7
+    User --> UC8
+    UC8 -.-> |<<include>>| UC8_1
+    User --> UC9
+    UC9 -.-> |<<extend>>| UC9_1
+    UC9 -.-> |<<extend>>| UC9_2
+    User --> UC10
+    User --> UC11
+
+    Admin --> AdminUC2
+    Admin --> UC10
+    Admin --> UC11

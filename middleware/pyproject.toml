@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "polivem-api"
+version = "0.1.0"
+description = "API for the Virtual Element Method (VEM) structural analysis"
+requires-python = ">=3.8"
+readme = "README.md"
+authors = [
+    {name = "Paulo Akira", email = "paulo.enabe@usp.br"}
+]
+
+dependencies = [
+    "fastapi>=0.115.12",
+    "numpy>=1.20.0",
+    "pandas>=1.3.0",
+    "uvicorn>=0.33.0",
+]
+
