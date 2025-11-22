@@ -1,0 +1,43 @@
+\changetocdepth {4}
+\babel@toc {brazil}{}\relax 
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {1}\MakeTextUppercase []{Introdução}}{6}{chapter.1}%
+\contentsline {chapter}{Introdução}{6}{chapter.1}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {2}\MakeTextUppercase []{Revisão Bibliográfica}}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Métodos Numéricos Clássicos em Elasticidade}{7}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Método dos Elementos Finitos (FEM)}{7}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Método dos Elementos Virtuais (VEM)}{8}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Avanços e Extensões no VEM}{9}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Elementos de Ordem Arbitrária (p-VEM)}{9}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Aplicações a Problemas Não Lineares}{9}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Elementos Virtuais Curvilíneos}{9}{subsection.2.2.3}%
+\contentsline {section}{\numberline {2.3}Inteligência Artificial na Solução de PDEs}{10}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Physics-Informed Neural Networks (PINNs)}{10}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Outras Estratégias de Deep Learning}{11}{subsection.2.3.2}%
+\contentsline {section}{\numberline {2.4}Quantificação de Incertezas em Modelos de Deep Learning}{12}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Métodos Bayesianos e Heurísticos}{12}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Importância da Quantificação de Incertezas em Engenharia Estrutural}{13}{subsection.2.4.2}%
+\contentsline {section}{\numberline {2.5}Métodos Híbridos: Integração de Deep Learning e Métodos Numéricos}{14}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Elementos Finitos Aprendidos por Deep Learning}{14}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}Deep Energy Method (DEM) e Outras Estratégias Variacionais}{15}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Frameworks Híbridos e Perspectivas Futuras}{16}{subsection.2.5.3}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {3}\MakeTextUppercase []{Objetivos}}{17}{chapter.3}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {4}\MakeTextUppercase []{Metodologia}}{18}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Descrição Geral da Metodologia Proposta}{18}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Geração dos Datasets via Solver VEM}{19}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Arquitetura e Treinamento da Rede Neural}{20}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Arquitetura da Rede Neural}{20}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Treinamento da Rede Neural}{22}{subsection.4.3.2}%
+\setlength {\cftchapterindent }{0em} \setlength {\cftchapternumwidth }{\cftlastnumwidth }
+\contentsline {chapter}{\chapternumberline {5}\MakeTextUppercase []{Resultados e Discussão}}{24}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Desempenho do Treinamento da Rede Neural}{24}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Análise de Incertezas na Viga Engastada-Livre}{24}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Síntese dos Resultados}{27}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Perspectivas e Próximos Passos}{27}{section.5.4}%
+\vspace {\cftbeforechapterskip }
+\setlength {\cftchapterindent }{\cftlastnumwidth } \setlength {\cftchapternumwidth }{2em}
+\contentsline {chapter}{Referências}{29}{section*.7}%

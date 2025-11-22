@@ -1,0 +1,12 @@
+O objetivo geral deste trabalho é desenvolver, implementar e validar um framework híbrido que integra o Método dos Elementos Virtuais (VEM) e técnicas de Deep Learning, com quantificação de incertezas, para a resolução eficiente e precisa de problemas estruturais bidimensionais de elasticidade linear.
+
+Como desdobramentos desse objetivo geral, têm-se os seguintes objetivos específicos:
+	•	Implementar um solver baseado no VEM: Desenvolver um código numérico capaz de resolver problemas estruturais 2D em domínios poligonais, com flexibilidade para diferentes geometrias, propriedades materiais e condições de contorno.
+	•	Gerar bases de dados de alta fidelidade: Utilizar o solver VEM para construir conjuntos de dados variados, contemplando múltiplos cenários estruturais, que servirão de referência para o treinamento dos modelos de Deep Learning.
+	•	Projetar e treinar uma rede neural profunda adaptativa: Desenvolver uma arquitetura de rede neural capaz de aprender a mapear parâmetros geométricos e materiais para campos de deslocamento e tensão, incorporando técnicas de treinamento avançadas como Sobolev training e GradNorm.
+	•	Incorporar quantificação de incerteza: Aplicar técnicas como Monte Carlo Dropout durante a inferência para quantificar incertezas epistemológicas das predições da rede, produzindo mapas espaciais de confiança.
+	•	Desenvolver um ciclo adaptativo de refinamento: Utilizar os mapas de incerteza para guiar o refinamento local da malha no VEM, retroalimentando o processo de geração de dados e treinamento do modelo até atingir convergência.
+	•	Comparar com PINNs: Realizar uma avaliação comparativa do framework híbrido proposto frente às Physics-Informed Neural Networks, analisando aspectos como precisão, robustez, eficiência computacional e capacidade de generalização.
+	•	Analisar o impacto prático da abordagem: Avaliar os ganhos obtidos em termos de redução de erro, eficiência computacional e confiabilidade das soluções estruturais, buscando identificar o potencial de aplicação prática do método em problemas reais de engenharia estrutural.
+
+Esses objetivos visam não apenas desenvolver uma ferramenta inovadora, mas também contribuir para a compreensão do potencial e dos limites da integração entre métodos numéricos clássicos e técnicas modernas de aprendizado profundo no contexto da engenharia.

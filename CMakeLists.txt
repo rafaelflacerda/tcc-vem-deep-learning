@@ -88,3 +88,82 @@ message("[DEBUG] inc_dir: ${inc_dir}")
 message("[DEBUG] EIGEN3_INCLUDE_DIRS: ${EIGEN3_INCLUDE_DIRS}")
 
 message("[DEBUG] EIGEN3_INCLUDE_DIRS: ${nlohmann_json_INCLUDE_DIRS}")
+
+# Simple beam example
+add_executable(beam_simple examples/main_simple.cpp)
+target_link_libraries(beam_simple 
+    mesh 
+    solver 
+    material
+    utils
+    Eigen3::Eigen
+)
+target_include_directories(beam_simple PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+# Dataset generator for ML
+add_executable(generate_dataset examples/generate_dataset.cpp)
+target_link_libraries(generate_dataset 
+    mesh 
+    solver 
+    material
+    utils
+    Eigen3::Eigen
+)
+target_include_directories(generate_dataset PRIVATE ${CMAKE_SOURCE_DIR}/include)
+
+add_executable(run_generate_dataset examples/generate_dataset.cpp)
+target_link_libraries(run_generate_dataset solver mesh material utils Eigen3::Eigen)
+
+# === Executável de teste: run_single_case ===
+add_executable(run_single_case examples/run_single_case.cpp)
+
+# Vincular às bibliotecas internas do projeto
+target_link_libraries(run_single_case
+    mesh
+    solver
+    material
+    utils
+    linear_algebra
+    Eigen3::Eigen
+)
+
+# === Executável de exemplo simples ===
+add_executable(main_simple examples/main_simple.cpp)
+
+target_link_libraries(main_simple
+    mesh
+    solver
+    material
+    utils
+    linear_algebra
+    Eigen3::Eigen
+)
+
+# === Novo gerador de dataset ===
+add_executable(generate_dataset_NOVO examples/generate_dataset_NOVO.cpp)
+
+target_link_libraries(generate_dataset_NOVO
+    mesh
+    solver
+    material
+    utils
+    linear_algebra
+    Eigen3::Eigen
+)
+
+# === Gerador de dataset analítico ===
+add_executable(generate_dataset_ANALYTICAL examples/generate_dataset_ANALYTICAL.cpp)
+
+target_link_libraries(generate_dataset_ANALYTICAL
+    Eigen3::Eigen
+)
+
+add_executable(beam_main examples/beam_main.cpp)
+target_link_libraries(beam_main
+    mesh
+    solver
+    material
+    utils
+    linear_algebra
+    Eigen3::Eigen
+)

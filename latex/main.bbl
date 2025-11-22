@@ -1,0 +1,949 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{artioli2021}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=f5ad4b148402c4844593ce5d18815555}{%
+           family={ARTIOLI},
+           familyi={A\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55866921a0456071a992dde6a01e31e6}{%
+           family={BEIRÃO\bibnamedelimb DA\bibnamedelima VEIGA},
+           familyi={B\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a3c39ca72d9935444cd7cf5b907522f9}{%
+           family={DASSI},
+           familyi={D\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c1616ddfa8f2730dcab2f6e257b522ed}
+      \strng{fullhash}{c1616ddfa8f2730dcab2f6e257b522ed}
+      \strng{fullhashraw}{c1616ddfa8f2730dcab2f6e257b522ed}
+      \strng{bibnamehash}{c1616ddfa8f2730dcab2f6e257b522ed}
+      \strng{authorbibnamehash}{c1616ddfa8f2730dcab2f6e257b522ed}
+      \strng{authornamehash}{c1616ddfa8f2730dcab2f6e257b522ed}
+      \strng{authorfullhash}{c1616ddfa8f2730dcab2f6e257b522ed}
+      \strng{authorfullhashraw}{c1616ddfa8f2730dcab2f6e257b522ed}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Disponível em: \url{https://arxiv.org/abs/1910.00827}. Acesso em: 20 maio 2025}
+      \field{title}{Curvilinear Virtual Elements for 2D solid mechanics applications}
+      \field{year}{2021}
+    \endentry
+    \entry{beirao2013}{article}{}{}
+      \name{author}{6}{ul=2}{%
+        {{un=0,uniquepart=base,hash=55866921a0456071a992dde6a01e31e6}{%
+           family={BEIRÃO\bibnamedelimb DA\bibnamedelima VEIGA},
+           familyi={B\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4af81dd5b5a260045876554da587b5af}{%
+           family={BREZZI},
+           familyi={B\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=67927213bb9e4739cfb51a55fe200d1d}{%
+           family={CANGIANI},
+           familyi={C\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=755e6f257995c4341f0090224fdfeeab}{%
+           family={MANZINI},
+           familyi={M\bibinitperiod},
+           given={G.},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9cf50a9a827ee74c7722e165d677ee24}{%
+           family={MARINI},
+           familyi={M\bibinitperiod},
+           given={L.\bibnamedelimi D.},
+           giveni={L\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b2e2ef12be12ee2a4d4bbc08bcc8cf25}{%
+           family={RUSSO},
+           familyi={R\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{4061764a415df992fe7d53d85ceba4c2}
+      \strng{fullhash}{176b74b7f96f8f42007c3e910e4c5b4d}
+      \strng{fullhashraw}{176b74b7f96f8f42007c3e910e4c5b4d}
+      \strng{bibnamehash}{4061764a415df992fe7d53d85ceba4c2}
+      \strng{authorbibnamehash}{4061764a415df992fe7d53d85ceba4c2}
+      \strng{authornamehash}{4061764a415df992fe7d53d85ceba4c2}
+      \strng{authorfullhash}{176b74b7f96f8f42007c3e910e4c5b4d}
+      \strng{authorfullhashraw}{176b74b7f96f8f42007c3e910e4c5b4d}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Mathematical Models and Methods in Applied Sciences}
+      \field{note}{Disponível em: \url{https://www.worldscientific.com/doi/abs/10.1142/S0218202512500492}. Acesso em: 20 maio 2025}
+      \field{number}{1}
+      \field{title}{Basic principles of virtual element methods}
+      \field{volume}{23}
+      \field{year}{2013}
+      \field{pages}{1s99\bibrangedash 214}
+      \range{pages}{-1}
+      \verb{doi}
+      \verb 10.1142/S0218202512500492
+      \endverb
+    \endentry
+    \entry{beirao2015}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=55866921a0456071a992dde6a01e31e6}{%
+           family={BEIRÃO\bibnamedelimb DA\bibnamedelima VEIGA},
+           familyi={B\bibinitperiod\bibinitdelim D\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e6478801e325c4854a8a268ffc2f9be5}{%
+           family={LOVADINA},
+           familyi={L\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=885187db791aac233c7e4db2ea95bc72}{%
+           family={MORA},
+           familyi={M\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{38261d221fa51c6518e52af1084630d9}
+      \strng{fullhash}{38261d221fa51c6518e52af1084630d9}
+      \strng{fullhashraw}{38261d221fa51c6518e52af1084630d9}
+      \strng{bibnamehash}{38261d221fa51c6518e52af1084630d9}
+      \strng{authorbibnamehash}{38261d221fa51c6518e52af1084630d9}
+      \strng{authornamehash}{38261d221fa51c6518e52af1084630d9}
+      \strng{authorfullhash}{38261d221fa51c6518e52af1084630d9}
+      \strng{authorfullhashraw}{38261d221fa51c6518e52af1084630d9}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1503.02042}
+      \field{note}{Disponível em: \url{https://arxiv.org/abs/1503.02042}. Acesso em: 20 maio 2025}
+      \field{title}{A Virtual Element Method for elastic and inelastic problems on polytope meshes}
+      \field{year}{2015}
+    \endentry
+    \entry{blundell2015}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=aae262a25f5dcdeecdbb889fdd194c8c}{%
+           family={BLUNDELL},
+           familyi={B\bibinitperiod},
+           given={Charles},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5eb23315b57916929a149127fd82921f}{%
+           family={CORNISH},
+           familyi={C\bibinitperiod},
+           given={Julien},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7aa7e3964f53596fb70ec11ee8a02113}{%
+           family={KORATTIL},
+           familyi={K\bibinitperiod},
+           given={Gintare},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a53566eeb04cc8ff593a54cc6e799305}{%
+           family={WEN},
+           familyi={W\bibinitperiod},
+           given={Yichen},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=39b59ca61850c67fc0d3a419ff1484df}{%
+           family={WU},
+           familyi={W\bibinitperiod},
+           given={Jiaming},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=301364f7973565d2e241d30d0ec39e7b}{%
+           family={CAVALLARO},
+           familyi={C\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2fb78fe1802ecef6de65f1d258f93e81}
+      \strng{fullhash}{b9745fc8e17b99b0982e242ce947d85b}
+      \strng{fullhashraw}{b9745fc8e17b99b0982e242ce947d85b}
+      \strng{bibnamehash}{2fb78fe1802ecef6de65f1d258f93e81}
+      \strng{authorbibnamehash}{2fb78fe1802ecef6de65f1d258f93e81}
+      \strng{authornamehash}{2fb78fe1802ecef6de65f1d258f93e81}
+      \strng{authorfullhash}{b9745fc8e17b99b0982e242ce947d85b}
+      \strng{authorfullhashraw}{b9745fc8e17b99b0982e242ce947d85b}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1505.05424}
+      \field{note}{Disponível em: \url{https://arxiv.org/abs/1505.05424}. Acesso em: 20 maio 2025}
+      \field{title}{Weight Uncertainty in Neural Networks}
+      \field{year}{2015}
+    \endentry
+    \entry{provasi2025}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=4a2e114657867a73b36686f4bf7a7765}{%
+           family={ENABE},
+           familyi={E\bibinitperiod},
+           given={Paulo\bibnamedelimb Akira\bibnamedelima F.},
+           giveni={P\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=977d235dafe340a2d187c651513472d4}{%
+           family={PROVASI},
+           familyi={P\bibinitperiod},
+           given={Rodrigo},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{119aa42ff92b1a7d2b0cb9d96bf12524}
+      \strng{fullhash}{119aa42ff92b1a7d2b0cb9d96bf12524}
+      \strng{fullhashraw}{119aa42ff92b1a7d2b0cb9d96bf12524}
+      \strng{bibnamehash}{119aa42ff92b1a7d2b0cb9d96bf12524}
+      \strng{authorbibnamehash}{119aa42ff92b1a7d2b0cb9d96bf12524}
+      \strng{authornamehash}{119aa42ff92b1a7d2b0cb9d96bf12524}
+      \strng{authorfullhash}{119aa42ff92b1a7d2b0cb9d96bf12524}
+      \strng{authorfullhashraw}{119aa42ff92b1a7d2b0cb9d96bf12524}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{Escola Politécnica, University of São Paulo, Department of Structural and Geotechnical Engineering}
+      \field{note}{Disponível em: \url{https://arxiv.org/abs/2501.06925}. Acesso em: 20 maio 2025}
+      \field{title}{A hybrid virtual element method and deep learning approach for solving one-dimensional Euler-Bernoulli beams}
+      \field{year}{2025}
+    \endentry
+    \entry{gal2016}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3f05da81c96b42ff4fea84b0ec21f63d}{%
+           family={GAL},
+           familyi={G\bibinitperiod},
+           given={Yarin},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=649f7aac3715f1b456a9527f3b0e2ca5}{%
+           family={GHAHRAMANI},
+           familyi={G\bibinitperiod},
+           given={Zoubin},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{6c6998d9b754427702f03da0f289ee55}
+      \strng{fullhash}{6c6998d9b754427702f03da0f289ee55}
+      \strng{fullhashraw}{6c6998d9b754427702f03da0f289ee55}
+      \strng{bibnamehash}{6c6998d9b754427702f03da0f289ee55}
+      \strng{authorbibnamehash}{6c6998d9b754427702f03da0f289ee55}
+      \strng{authornamehash}{6c6998d9b754427702f03da0f289ee55}
+      \strng{authorfullhash}{6c6998d9b754427702f03da0f289ee55}
+      \strng{authorfullhashraw}{6c6998d9b754427702f03da0f289ee55}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the 33rd International Conference on Machine Learning}
+      \field{note}{Disponível em: \url{http://proceedings.mlr.press/v48/gal16.html}. Acesso em: 20 maio 2025}
+      \field{title}{Dropout as a Bayesian approximation: Representing model uncertainty in deep learning}
+      \field{volume}{48}
+      \field{year}{2016}
+      \field{pages}{1050\bibrangedash 1059}
+      \range{pages}{10}
+    \endentry
+    \entry{jung2020}{article}{}{}
+      \name{author}{4}{ul=3}{%
+        {{un=0,uniquepart=base,hash=500a55da1bf7f1ab310c8dabdba1f935}{%
+           family={JUNG},
+           familyi={J\bibinitperiod},
+           given={Woo\bibnamedelima Seok},
+           giveni={W\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=aacce4eb388790f0e59202c29f2c605a}{%
+           family={HAN},
+           familyi={H\bibinitperiod},
+           given={Jiequn},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=268e9715905f2ab3cb20df636d3750c1}{%
+           family={E},
+           familyi={E\bibinitperiod},
+           given={Weinan},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=89d716f45d7b1d00e60e6d82ac704859}{%
+           family={JENTZEN},
+           familyi={J\bibinitperiod},
+           given={Arnulf},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{ae0def8f8d1ab7eea77b060c2a899581}
+      \strng{fullhash}{da7b59c2324aa62400921acc7fa4898d}
+      \strng{fullhashraw}{da7b59c2324aa62400921acc7fa4898d}
+      \strng{bibnamehash}{ae0def8f8d1ab7eea77b060c2a899581}
+      \strng{authorbibnamehash}{ae0def8f8d1ab7eea77b060c2a899581}
+      \strng{authornamehash}{ae0def8f8d1ab7eea77b060c2a899581}
+      \strng{authorfullhash}{da7b59c2324aa62400921acc7fa4898d}
+      \strng{authorfullhashraw}{da7b59c2324aa62400921acc7fa4898d}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2003.04862}
+      \field{note}{Disponível em: \url{https://arxiv.org/abs/2003.04862}. Acesso em: 20 maio 2025}
+      \field{title}{Deep learned finite element for elasto-plasticity problems}
+      \field{year}{2020}
+    \endentry
+    \entry{jung2022}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=500a55da1bf7f1ab310c8dabdba1f935}{%
+           family={JUNG},
+           familyi={J\bibinitperiod},
+           given={Woo\bibnamedelima Seok},
+           giveni={W\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=aacce4eb388790f0e59202c29f2c605a}{%
+           family={HAN},
+           familyi={H\bibinitperiod},
+           given={Jiequn},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=89d716f45d7b1d00e60e6d82ac704859}{%
+           family={JENTZEN},
+           familyi={J\bibinitperiod},
+           given={Arnulf},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{8b026ce93224012592027fcb2d700c0c}
+      \strng{fullhash}{8b026ce93224012592027fcb2d700c0c}
+      \strng{fullhashraw}{8b026ce93224012592027fcb2d700c0c}
+      \strng{bibnamehash}{8b026ce93224012592027fcb2d700c0c}
+      \strng{authorbibnamehash}{8b026ce93224012592027fcb2d700c0c}
+      \strng{authornamehash}{8b026ce93224012592027fcb2d700c0c}
+      \strng{authorfullhash}{8b026ce93224012592027fcb2d700c0c}
+      \strng{authorfullhashraw}{8b026ce93224012592027fcb2d700c0c}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:2203.01111}
+      \field{note}{Disponível em: \url{https://arxiv.org/abs/2203.01111}. Acesso em: 20 maio 2025}
+      \field{title}{Self-updated finite element using deep learning for the bending of Reissner-Mindlin plates}
+      \field{year}{2022}
+    \endentry
+    \entry{karniadakis2021}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=0c40da61153f2b06570f135b4bf5c5ce}{%
+           family={KARNIADAKIS},
+           familyi={K\bibinitperiod},
+           given={George\bibnamedelima Em},
+           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6f4c7109ad78e7ae3dc7ef0394f7e428}{%
+           family={PERDIKARIS},
+           familyi={P\bibinitperiod},
+           given={Paris},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c97cfc141194f8bbe07980bb38f4835a}{%
+           family={RAISSI},
+           familyi={R\bibinitperiod},
+           given={Maziar},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=268cde81082df570670c739adcdb557c}{%
+           family={WANG},
+           familyi={W\bibinitperiod},
+           given={Sifan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=33b5f538874d20fbe61c880dd0682e56}{%
+           family={YANG},
+           familyi={Y\bibinitperiod},
+           given={Liu},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6f17d9f33c195fdaeefff1b25e0d7c79}{%
+           family={CAI},
+           familyi={C\bibinitperiod},
+           given={Shu},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{84cd5a03f1bdc03b12d77df6cda71eb9}
+      \strng{fullhash}{39282f55fec7f9631a71da5bb6f294fe}
+      \strng{fullhashraw}{39282f55fec7f9631a71da5bb6f294fe}
+      \strng{bibnamehash}{84cd5a03f1bdc03b12d77df6cda71eb9}
+      \strng{authorbibnamehash}{84cd5a03f1bdc03b12d77df6cda71eb9}
+      \strng{authornamehash}{84cd5a03f1bdc03b12d77df6cda71eb9}
+      \strng{authorfullhash}{39282f55fec7f9631a71da5bb6f294fe}
+      \strng{authorfullhashraw}{39282f55fec7f9631a71da5bb6f294fe}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Reviews Physics}
+      \field{note}{Disponível em: \url{https://www.nature.com/articles/s42254-021-00314-5}. Acesso em: 20 maio 2025}
+      \field{title}{Physics-informed machine learning}
+      \field{volume}{3}
+      \field{year}{2021}
+      \field{pages}{422\bibrangedash 440}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1038/s42254-021-00314-5
+      \endverb
+    \endentry
+    \entry{lakshminarayanan2017}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b948afd242373fcccd0c6e903478b881}{%
+           family={LAKSHMINARAYANAN},
+           familyi={L\bibinitperiod},
+           given={Balaji},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4295e4094c426f01903ac60155866130}{%
+           family={Pritzel},
+           familyi={P\bibinitperiod},
+           given={Alexander},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=24fe1af011227491e54e299ba4cb24b5}{%
+           family={Blundell},
+           familyi={B\bibinitperiod},
+           given={Charles},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{e8338a606a5635b996a5b2b7e9280feb}
+      \strng{fullhash}{e8338a606a5635b996a5b2b7e9280feb}
+      \strng{fullhashraw}{e8338a606a5635b996a5b2b7e9280feb}
+      \strng{bibnamehash}{e8338a606a5635b996a5b2b7e9280feb}
+      \strng{authorbibnamehash}{e8338a606a5635b996a5b2b7e9280feb}
+      \strng{authornamehash}{e8338a606a5635b996a5b2b7e9280feb}
+      \strng{authorfullhash}{e8338a606a5635b996a5b2b7e9280feb}
+      \strng{authorfullhashraw}{e8338a606a5635b996a5b2b7e9280feb}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Advances in Neural Information Processing Systems}
+      \field{note}{Disponível em: \url{https://proceedings.neurips.cc/paper/2017/hash/9ef2ed4b7fd2c810847ffa5fa85bce38-Abstract.html}. Acesso em: 20 maio 2025}
+      \field{title}{Simple and Scalable Predictive Uncertainty Estimation using Deep Ensembles}
+      \field{volume}{30}
+      \field{year}{2017}
+    \endentry
+    \entry{liang2018}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=872724a4bbc8ba7efbfd0973304aa6b4}{%
+           family={LIANG},
+           familyi={L\bibinitperiod},
+           given={Qifeng},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5461da9e18d0ad7b0b28f3cf028e084f}{%
+           family={YU},
+           familyi={Y\bibinitperiod},
+           given={Shihui},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d8aad695585e58e4d685cd40df958e20}{%
+           family={WANG},
+           familyi={W\bibinitperiod},
+           given={Zhiqiang},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{7a3b34dacc6dcce5a816346172a32c64}
+      \strng{fullhash}{7a3b34dacc6dcce5a816346172a32c64}
+      \strng{fullhashraw}{7a3b34dacc6dcce5a816346172a32c64}
+      \strng{bibnamehash}{7a3b34dacc6dcce5a816346172a32c64}
+      \strng{authorbibnamehash}{7a3b34dacc6dcce5a816346172a32c64}
+      \strng{authornamehash}{7a3b34dacc6dcce5a816346172a32c64}
+      \strng{authorfullhash}{7a3b34dacc6dcce5a816346172a32c64}
+      \strng{authorfullhashraw}{7a3b34dacc6dcce5a816346172a32c64}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computational Physics}
+      \field{note}{Disponível em: \url{https://www.sciencedirect.com/science/article/pii/S0021999118304682}. Acesso em: 20 maio 2025}
+      \field{title}{Deep learning surrogate model for high-dimensional random partial differential equations}
+      \field{volume}{372}
+      \field{year}{2018}
+      \field{pages}{346\bibrangedash 369}
+      \range{pages}{24}
+      \verb{doi}
+      \verb 10.1016/j.jcp.2018.06.048
+      \endverb
+    \endentry
+    \entry{lu2021}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=0991b984a64927c42a8d1d0171f7e75d}{%
+           family={LU},
+           familyi={L\bibinitperiod},
+           given={Lu},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ab84d7497b0668601b37821418c9b15a}{%
+           family={MENG},
+           familyi={M\bibinitperiod},
+           given={Xuhui},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=eebe3b2f8378f641fa12f2e2ed7157b9}{%
+           family={MAO},
+           familyi={M\bibinitperiod},
+           given={Zhiping},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0c40da61153f2b06570f135b4bf5c5ce}{%
+           family={KARNIADAKIS},
+           familyi={K\bibinitperiod},
+           given={George\bibnamedelima Em},
+           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{81c23a34562ee0514b8f6cc6953ce0a8}
+      \strng{fullhash}{fc2ddbb45f55d5304917aa2ef9011c03}
+      \strng{fullhashraw}{fc2ddbb45f55d5304917aa2ef9011c03}
+      \strng{bibnamehash}{81c23a34562ee0514b8f6cc6953ce0a8}
+      \strng{authorbibnamehash}{81c23a34562ee0514b8f6cc6953ce0a8}
+      \strng{authornamehash}{81c23a34562ee0514b8f6cc6953ce0a8}
+      \strng{authorfullhash}{fc2ddbb45f55d5304917aa2ef9011c03}
+      \strng{authorfullhashraw}{fc2ddbb45f55d5304917aa2ef9011c03}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{SIAM Review}
+      \field{note}{Disponível em: \url{https://epubs.siam.org/doi/10.1137/19M1274067}. Acesso em: 20 maio 2025}
+      \field{number}{1}
+      \field{title}{DeepXDE: A deep learning library for solving differential equations}
+      \field{volume}{63}
+      \field{year}{2021}
+      \field{pages}{208\bibrangedash 228}
+      \range{pages}{21}
+      \verb{doi}
+      \verb 10.1137/19M1274067
+      \endverb
+    \endentry
+    \entry{meethal2023}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=0f91c00143d1ab12083ff67d0df7ecaa}{%
+           family={MEETHAL},
+           familyi={M\bibinitperiod},
+           given={Saneesh},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1082a9f566d2bc84b2a56219795af588}{%
+           family={BASAK},
+           familyi={B\bibinitperiod},
+           given={Ananda\bibnamedelima Shankar},
+           giveni={A\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7db5921a7be8201ed8d156697deef759}{%
+           family={MUTHUKUMAR},
+           familyi={M\bibinitperiod},
+           given={Periasamy},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2a3c14d286957f340a0939c68d4a70b3}{%
+           family={GANGADHARAN},
+           familyi={G\bibinitperiod},
+           given={K.V.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{02377093c8f6dcfa4033d71e8adae9b6}
+      \strng{fullhash}{36e94004011ba6910d8a64acf1a3f6a8}
+      \strng{fullhashraw}{36e94004011ba6910d8a64acf1a3f6a8}
+      \strng{bibnamehash}{02377093c8f6dcfa4033d71e8adae9b6}
+      \strng{authorbibnamehash}{02377093c8f6dcfa4033d71e8adae9b6}
+      \strng{authornamehash}{02377093c8f6dcfa4033d71e8adae9b6}
+      \strng{authorfullhash}{36e94004011ba6910d8a64acf1a3f6a8}
+      \strng{authorfullhashraw}{36e94004011ba6910d8a64acf1a3f6a8}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Engineering Applications of Artificial Intelligence}
+      \field{note}{Disponível em: \url{https://www.sciencedirect.com/science/article/pii/S0952197623003434}. Acesso em: 20 maio 2025}
+      \field{title}{Hybrid deep learning–finite element approach for solving 2D elasticity problems}
+      \field{volume}{120}
+      \field{year}{2023}
+      \field{pages}{105813}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.engappai.2023.105813
+      \endverb
+    \endentry
+    \entry{mengolini2019}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=7096072441e44b2df31b3520bb3acf48}{%
+           family={MENGOLINI},
+           familyi={M\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fe0d8bd41babf8a4b118ede3e14dca8c}{%
+           family={BENEDETTO},
+           familyi={B\bibinitperiod},
+           given={Matías\bibnamedelima F.},
+           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2ba38b0baa7ae66c296359b90e4e2ca4}{%
+           family={ARAGÓN},
+           familyi={A\bibinitperiod},
+           given={Alejandro\bibnamedelima M.},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{3db2beb4e61e55c2e22afc64224c9d2f}
+      \strng{fullhash}{3db2beb4e61e55c2e22afc64224c9d2f}
+      \strng{fullhashraw}{3db2beb4e61e55c2e22afc64224c9d2f}
+      \strng{bibnamehash}{3db2beb4e61e55c2e22afc64224c9d2f}
+      \strng{authorbibnamehash}{3db2beb4e61e55c2e22afc64224c9d2f}
+      \strng{authornamehash}{3db2beb4e61e55c2e22afc64224c9d2f}
+      \strng{authorfullhash}{3db2beb4e61e55c2e22afc64224c9d2f}
+      \strng{authorfullhashraw}{3db2beb4e61e55c2e22afc64224c9d2f}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computer Methods in Applied Mechanics and Engineering}
+      \field{note}{Disponível em: \url{https://doi.org/10.1016/j.cma.2019.02.043}. Acesso em: 20 maio 2025}
+      \field{title}{An engineering perspective to the virtual element method and its interplay with the standard finite element method}
+      \field{volume}{350}
+      \field{year}{2019}
+      \field{pages}{995\bibrangedash 1023}
+      \range{pages}{29}
+    \endentry
+    \entry{mobiny2019}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=e33798e21c9e1515d7c49d8185731bde}{%
+           family={MOBINY},
+           familyi={M\bibinitperiod},
+           given={Aryan},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d76b6dc6eadeafbd25ccae5ec4d4f5a3}{%
+           family={NGUYEN},
+           familyi={N\bibinitperiod},
+           given={Hien\bibnamedelima V.},
+           giveni={H\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9366e1fab608626bb10881d6c6230188}{%
+           family={MOULIK},
+           familyi={M\bibinitperiod},
+           given={Supratik},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a21196014091d3f5a6186f65516333ba}{%
+           family={GARG},
+           familyi={G\bibinitperiod},
+           given={Naveen},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=966e9102231ecb8b12e1cc12c4e4e269}{%
+           family={WU},
+           familyi={W\bibinitperiod},
+           given={Carol\bibnamedelima C.},
+           giveni={C\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{b01f3e2f5126483fb208a8dff05f02f0}
+      \strng{fullhash}{e254c102afb587f42b728a5753387a30}
+      \strng{fullhashraw}{e254c102afb587f42b728a5753387a30}
+      \strng{bibnamehash}{b01f3e2f5126483fb208a8dff05f02f0}
+      \strng{authorbibnamehash}{b01f3e2f5126483fb208a8dff05f02f0}
+      \strng{authornamehash}{b01f3e2f5126483fb208a8dff05f02f0}
+      \strng{authorfullhash}{e254c102afb587f42b728a5753387a30}
+      \strng{authorfullhashraw}{e254c102afb587f42b728a5753387a30}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{arXiv preprint arXiv:1906.04569}
+      \field{note}{Disponível em: \url{https://arxiv.org/abs/1906.04569}. Acesso em: 20 maio 2025}
+      \field{title}{DropConnect Is Effective in Modeling Uncertainty of Bayesian Deep Networks}
+      \field{year}{2019}
+    \endentry
+    \entry{nguyen2021}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=f52d30dc7eb2d3a32e25082eb8137095}{%
+           family={NGUYEN-THANH},
+           familyi={N\bibinithyphendelim T\bibinitperiod},
+           given={Nhon},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3d6cfeead7f6d6acca734fae897119f7}{%
+           family={CHEN},
+           familyi={C\bibinitperiod},
+           given={Zicheng},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c952f90a51c388bba986d668db01a282}{%
+           family={ZHU},
+           familyi={Z\bibinitperiod},
+           given={Qi},
+           giveni={Q\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=187528cca19ad01406b368851bd95e42}{%
+           family={ZHU},
+           familyi={Z\bibinitperiod},
+           given={Hehua},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bed6d892da6992aa59a08cb16e59b561}{%
+           family={ZHANG},
+           familyi={Z\bibinitperiod},
+           given={Yanchao},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a5d72b329690ce904eca23a6a3c102e2}{%
+           family={ZHANG},
+           familyi={Z\bibinitperiod},
+           given={Lixiang},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{36fa4ab5732833074e9f76213f36a317}
+      \strng{fullhash}{c20a829e6364a6067897f8c196b6e742}
+      \strng{fullhashraw}{c20a829e6364a6067897f8c196b6e742}
+      \strng{bibnamehash}{36fa4ab5732833074e9f76213f36a317}
+      \strng{authorbibnamehash}{36fa4ab5732833074e9f76213f36a317}
+      \strng{authornamehash}{36fa4ab5732833074e9f76213f36a317}
+      \strng{authorfullhash}{c20a829e6364a6067897f8c196b6e742}
+      \strng{authorfullhashraw}{c20a829e6364a6067897f8c196b6e742}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computer Methods in Applied Mechanics and Engineering}
+      \field{note}{Disponível em: \url{https://www.sciencedirect.com/science/article/pii/S0045782521004509}. Acesso em: 20 maio 2025}
+      \field{title}{Deep energy method for solving nonlinear problems in solid mechanics: A comprehensive study}
+      \field{volume}{389}
+      \field{year}{2022}
+      \field{pages}{114354}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.cma.2021.114354
+      \endverb
+    \endentry
+    \entry{raissi2019}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=5e6808a3ce18945538d88fd83a01a44a}{%
+           family={RAISSI},
+           familyi={R\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d4b842f86677e7290a7c53c28a81b8de}{%
+           family={PERDIKARIS},
+           familyi={P\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=134c7d78956bfe8ad796860bb6a69407}{%
+           family={KARNIADAKIS},
+           familyi={K\bibinitperiod},
+           given={G.\bibnamedelimi E.},
+           giveni={G\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{259f820e1bd2b2aac044b76b97ef8bc2}
+      \strng{fullhash}{259f820e1bd2b2aac044b76b97ef8bc2}
+      \strng{fullhashraw}{259f820e1bd2b2aac044b76b97ef8bc2}
+      \strng{bibnamehash}{259f820e1bd2b2aac044b76b97ef8bc2}
+      \strng{authorbibnamehash}{259f820e1bd2b2aac044b76b97ef8bc2}
+      \strng{authornamehash}{259f820e1bd2b2aac044b76b97ef8bc2}
+      \strng{authorfullhash}{259f820e1bd2b2aac044b76b97ef8bc2}
+      \strng{authorfullhashraw}{259f820e1bd2b2aac044b76b97ef8bc2}
+      \field{sortinit}{R}
+      \field{sortinithash}{5e1c39a9d46ffb6bebd8f801023a9486}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computational Physics}
+      \field{note}{Disponível em: \url{https://www.sciencedirect.com/science/article/pii/S0021999118307125}. Acesso em: 20 maio 2025}
+      \field{title}{Physics-informed neural networks: A deep learning framework for solving forward and inverse problems involving nonlinear partial differential equations}
+      \field{volume}{378}
+      \field{year}{2019}
+      \field{pages}{686\bibrangedash 707}
+      \range{pages}{22}
+      \verb{doi}
+      \verb 10.1016/j.jcp.2018.10.045
+      \endverb
+    \endentry
+    \entry{samaniego2020}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=a420788900728323642038b6dac3fabd}{%
+           family={SAMANIEGO},
+           familyi={S\bibinitperiod},
+           given={Esteban},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=996c842f126b4f4c0338b0dee8ea8c6a}{%
+           family={GANTNER},
+           familyi={G\bibinitperiod},
+           given={Franziska},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=69f241a88bafaa64749a86aee858207b}{%
+           family={GROSS},
+           familyi={G\bibinitperiod},
+           given={Stefan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=dd912524c6d9d01a5acd90bb440db8b3}{%
+           family={KÖPPL},
+           familyi={K\bibinitperiod},
+           given={Tobias},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e5d1a8455e4f8d9dbdbe7ae2c88cb252}{%
+           family={WESSELS},
+           familyi={W\bibinitperiod},
+           given={Maik},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{81df22294029c82fe7aa62aeac7d5a54}
+      \strng{fullhash}{3f81030f1b3712f68f03601aeb5f89b7}
+      \strng{fullhashraw}{3f81030f1b3712f68f03601aeb5f89b7}
+      \strng{bibnamehash}{81df22294029c82fe7aa62aeac7d5a54}
+      \strng{authorbibnamehash}{81df22294029c82fe7aa62aeac7d5a54}
+      \strng{authornamehash}{81df22294029c82fe7aa62aeac7d5a54}
+      \strng{authorfullhash}{3f81030f1b3712f68f03601aeb5f89b7}
+      \strng{authorfullhashraw}{3f81030f1b3712f68f03601aeb5f89b7}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computer Methods in Applied Mechanics and Engineering}
+      \field{note}{Disponível em: \url{https://www.sciencedirect.com/science/article/pii/S0045782519306294}. Acesso em: 20 maio 2025}
+      \field{title}{An energy-based variational model for deep learning in elasticity}
+      \field{volume}{358}
+      \field{year}{2020}
+      \field{pages}{112615}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.cma.2019.112615
+      \endverb
+    \endentry
+    \entry{wang2021}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=268cde81082df570670c739adcdb557c}{%
+           family={WANG},
+           familyi={W\bibinitperiod},
+           given={Sifan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f9e0fce03d75d5fd576913409a45709a}{%
+           family={YU},
+           familyi={Y\bibinitperiod},
+           given={Xuhui},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6f4c7109ad78e7ae3dc7ef0394f7e428}{%
+           family={PERDIKARIS},
+           familyi={P\bibinitperiod},
+           given={Paris},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{b0cc269ff9f5fd85cec97e8b6c2526f0}
+      \strng{fullhash}{b0cc269ff9f5fd85cec97e8b6c2526f0}
+      \strng{fullhashraw}{b0cc269ff9f5fd85cec97e8b6c2526f0}
+      \strng{bibnamehash}{b0cc269ff9f5fd85cec97e8b6c2526f0}
+      \strng{authorbibnamehash}{b0cc269ff9f5fd85cec97e8b6c2526f0}
+      \strng{authornamehash}{b0cc269ff9f5fd85cec97e8b6c2526f0}
+      \strng{authorfullhash}{b0cc269ff9f5fd85cec97e8b6c2526f0}
+      \strng{authorfullhashraw}{b0cc269ff9f5fd85cec97e8b6c2526f0}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Computational Physics}
+      \field{note}{Disponível em: \url{https://www.sciencedirect.com/science/article/pii/S0021999121005758}. Acesso em: 20 maio 2025}
+      \field{title}{When and why PINNs fail to train: A neural tangent kernel perspective}
+      \field{volume}{449}
+      \field{year}{2022}
+      \field{pages}{110768}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1016/j.jcp.2021.110768
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

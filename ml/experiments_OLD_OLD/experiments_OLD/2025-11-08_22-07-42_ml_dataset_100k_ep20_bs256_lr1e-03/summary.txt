@@ -1,0 +1,48 @@
+============================================================
+RESUMO DO TREINAMENTO - BeamNetDropout
+============================================================
+
+--- INFORMAÇÕES TEMPORAIS ---
+Início:   2025-11-08 22:07:44
+Término:  2025-11-08 22:07:59
+Duração:  00h00m15s
+
+--- DADOS ---
+Dataset: ../build/output/ml_dataset_100k
+Total de amostras: 80000
+Amostras treino: 72000
+Amostras validação: 8000
+Batches por época: 282
+
+--- ARQUITETURA ---
+Modelo: BeamNetDropout
+Input dim: 11
+Hidden dim: 512
+Dropout: 0.05
+
+--- HIPERPARÂMETROS ---
+Learning rate inicial: 1.00e-03
+Learning rate final: 1.00e-03
+Batch size: 256
+Otimizador: Adam
+Loss function: MSELoss
+Scheduler: ReduceLROnPlateau (factor=0.96, patience=80)
+Early stop patience: 1000
+
+--- RESULTADOS ---
+Epochs planejadas: 20
+Epochs treinadas: 20
+Melhor Val Loss: 0.000081
+
+--- HISTÓRICO DE LOSS ---
+Loss inicial (treino): 0.013439
+Loss final (treino): 0.000654
+Loss inicial (val): 0.000804
+Loss final (val): 0.000108
+Melhor val loss: 0.000081
+Melhoria total: 89.92%
+
+--- AMBIENTE ---
+Dispositivo: mps
+PyTorch version: 2.9.0
+Diretório de salvamento: experiments/2025-11-08_22-07-42_ml_dataset_100k_ep20_bs256_lr1e-03

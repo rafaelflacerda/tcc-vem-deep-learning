@@ -1,4 +1,4 @@
-# CMake build files
+# --- C++ / CMake Build Files ---
 /CMakeFiles/
 /Makefile
 /CMakeCache.txt
@@ -6,53 +6,57 @@
 /lib/*/CMakeFiles/
 /lib/*/Makefile
 /lib/*/cmake_install.cmake
+# Ignora a pasta de build inteira (onde ficam os executáveis)
+build/
+bin/
+lib/
 
-# Output data
+# --- Data & Outputs ---
+# Garante que datasets e resultados não subam
 /data/_output/*
+output/
+*.csv
+*.xlsx
 
-# IDE settings
-/.vscode/*
-
-# Python/middleware specific
+# --- Python / Deep Learning ---
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+.pytest_cache/
+.coverage
+htmlcov/
+# Ignora ambientes virtuais (vários nomes comuns)
 env/
 venv/
 venv_polivem/
 .env
 .venv
 ENV/
-.pytest_cache/
-.coverage
-htmlcov/
 
-# Python package files
+# --- Model Weights & Scalers (SEGURANÇA EXTRA) ---
+# Evita subir modelos pesados se você salvar fora da pasta output
+*.pth
+*.pt
+*.pkl
+*.ckpt
+
+# --- Packaging ---
 *.egg-info/
 *.egg
 dist/
-build/
 middleware/build/
 middleware/dist/
 
-# Python compiled modules
+# --- Compiled Modules (Python/C++ bind) ---
 middleware/polivem/*.so
 middleware/polivem/*.dylib
 middleware/polivem/*.pyd
 middleware/polivem/polivem_py.*
 
-# uv specific
-.uv/
-requirements.lock
-
-# API specific
-api/__pycache__/
-api/*.py[cod]
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# macOS specific
+# --- IDEs & OS ---
+/.vscode/
+.idea/
 .DS_Store
+.ipynb_checkpoints

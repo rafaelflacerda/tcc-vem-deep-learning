@@ -1,0 +1,54 @@
+======================================================================
+RESUMO DO TREINAMENTO - BeamNetDropout COM INVERSE TRANSFORM
+======================================================================
+
+✅ CORREÇÃO IMPLEMENTADA:
+- PowerTransformer inverse_transform aplicado nas predições
+- Validação em DOIS espaços (transformado e original)
+- Early stopping baseado em espaço original (interpretável)
+- Scaler salvo com pickle para reconstrução completa
+- Gradient clipping ativado para estabilidade
+
+--- INFORMAÇÕES TEMPORAIS ---
+Início:   2025-11-11 10:17:36
+Término:  2025-11-11 10:27:17
+Duração:  00h09m41s
+
+--- DADOS ---
+Dataset: ../build/output/ml_dataset_100k
+Total de amostras: 400000
+Batches por época: Treino 625 | Validação 157
+
+--- ARQUITETURA ---
+Modelo: BeamNetDropout
+Input dim: 11
+Hidden dim: 512
+Dropout: 0.05
+
+--- HIPERPARÂMETROS ---
+Learning rate inicial: 1.00e-03
+Learning rate final: 1.00e-03
+Batch size: 512
+Otimizador: Adam
+Loss function: MSELoss
+Scheduler: ReduceLROnPlateau (factor=0.95, patience=100)
+Early stop patience: 1000
+
+--- RESULTADOS ---
+Epochs planejadas: 200
+Epochs treinadas: 200
+Melhor Val Loss (transformado): 0.000026
+Melhor Val Loss (original):     0.000000 ← USE ESTE
+
+--- HISTÓRICO DE LOSS ---
+Loss inicial (treino): 0.005353
+Loss final (treino): 0.000376
+Loss inicial (val original): 0.000010
+Loss final (val original): 0.000002
+Melhor val loss (original): 0.000000
+Melhoria total: 96.33%
+
+--- AMBIENTE ---
+Dispositivo: mps
+PyTorch version: 2.9.0
+Diretório de salvamento: experiments/2025-11-11_10-17-26_ml_dataset_100k_ep200_bs512_lr1e-03

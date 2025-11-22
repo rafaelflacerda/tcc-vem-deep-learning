@@ -1,0 +1,34 @@
+Etapas:
+1. Remoção de falhas do Solver (NaN e Inf)
+    - Remover os dados que são erros utilizando dropna()
+2. Possível remoção de outliers
+    - Remover os outliers de acordo com o erro deles em relação à soluçao analítica?
+3. Feature Scaling
+    3.1. StandardScaler
+        - Remove a média e escala os dados para a variância unitaria.
+        - z = (x - u) / s, onde x é o valor, u é a média e s é o desvio padrão.
+        - Extremamente sensível a outliers
+    3.2. MinMaxScaler
+        - Não recomendado
+    3.3. RobustScaler
+        - Ignora outliers no cálculo dos parâmetros de escalonamento. 
+        - Não normaliza os dados e não corrige assimetrias (skewness) na distribuição.
+        - É uma boa escolha no geral
+    3.4. PowerTransformer
+        - Opções: Box-Cox e Yeo-Johnson. Box-Cox requer que os dados sejam estritamente positivos. A transformação de Yeo-Johnson funciona com positivos e negativos.
+        - Simultaneamente estabiliza a variância e reduz assimetria.
+        - Torna os dados mais gaussianos. Lida implicitamente com o impacto de outliers severos de forma não-linear.
+        - Requer que a transformação inversa seja aplicada corretamente nas predições (se usado na variável alvo).
+        - FORTE CANDIDATO
+4. Feature Engineering vs Feature Learning
+    4.1. Viés Indutivo Físico (Physics-Informed Inductive Bias)
+        - Algo a ver com inserir EI junto, ao invés de inserir E e inserir I
+5. A importância de escalonar o output
+    5.1. TransformedTargetRegressor
+        - É um wrapper (empacotador) que recebe dois argumentos: o regressor (a rede neural) e o transformador para o alvo (ex: StandardScaler)
+6. O Fluxo de Trabalho Correto e a Prevenção de "Data Leakage"
+    - Basicamente
+        - Divisão Primária: dividr o dataset em conjunto de treinamento (0,8 * x) e teste (0,2 * x)
+        - Divisão Secundária: dividir os (0,8 * x) de treinamento em treinamento final (0,64 * x) e validação (0,16 * x)
+        - Ajuste (Fit) do Scaler apenas nos dados de treinamento final (os 0,64 * x). Os parâmetros (média, mediana, IQR, etc.) são calculados apenas com base nesses dados
+        - Transformação (Transform): use .transform() (com os scalers já ajustados) para aplicar o escalonamento em todos os conjuntos: treinamento final, validação e teste

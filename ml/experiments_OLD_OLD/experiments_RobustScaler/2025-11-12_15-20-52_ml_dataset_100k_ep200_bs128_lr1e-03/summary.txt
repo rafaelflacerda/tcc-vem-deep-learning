@@ -1,0 +1,58 @@
+======================================================================
+RESUMO DO TREINAMENTO - BeamNetDropout com RobustScaler
+======================================================================
+
+✅ CORREÇÕES IMPLEMENTADAS:
+- RobustScaler para normalização robusta
+- Validação em DOIS espaços (transformado + original)
+- Early stopping baseado em espaço original
+- Scaler salvo com pickle via save_checkpoint()
+- Gradient clipping ativado
+- Batch size reduzido para estabilidade
+
+--- INFORMAÇÕES TEMPORAIS ---
+Início:   2025-11-12 15:21:02
+Término:  2025-11-12 15:48:31
+Duração:  00h27m28s
+
+--- DADOS ---
+Dataset: ../build/output/ml_dataset_100k
+Total de amostras: 400000
+Amostras treino: 320000
+Amostras validação: 80000
+Batches por época: Treino 2500 | Validação 625
+
+--- ARQUITETURA ---
+Modelo: BeamNetDropout
+Input dim: 10
+Hidden dim: 512
+Dropout: 0.05
+
+--- HIPERPARÂMETROS ---
+Learning rate inicial: 1.00e-03
+Learning rate final: 1.00e-03
+Batch size: 128
+Otimizador: Adam
+Loss function: MSELoss
+Scheduler: ReduceLROnPlateau (factor=0.95, patience=120)
+Early stop patience: 1000
+Normalizador: RobustScaler
+
+--- RESULTADOS ---
+Epochs planejadas: 200
+Epochs treinadas: 200
+Melhor Val Loss (transformado): 0.000070
+Melhor Val Loss (original):     0.000002 ← USE ESTE
+
+--- HISTÓRICO DE LOSS ---
+Loss inicial (treino): 0.001474
+Loss final (treino): 0.000260
+Loss inicial (val original): 0.000021
+Loss final (val original): 0.000008
+Melhor val loss (original): 0.000002
+Melhoria total: 92.81%
+
+--- AMBIENTE ---
+Dispositivo: mps
+PyTorch version: 2.9.0
+Diretório de salvamento: experiments_RobustScaler/2025-11-12_15-20-52_ml_dataset_100k_ep200_bs128_lr1e-03
