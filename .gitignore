@@ -61,7 +61,7 @@ middleware/polivem/polivem_py.*
 .ipynb_checkpoints
 
 # --- Pastas para Ignorar Totalmente ---
-00_URGENTE/
+
 
 # --- Lixo do Windows (Necessário pois você vai para Windows) ---
 Thumbs.db
@@ -74,3 +74,4 @@ ehthumbs.db
 .tmp.driveupload/
 
 .tmp.drivedownload/
+
