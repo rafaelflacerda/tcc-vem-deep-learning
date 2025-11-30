@@ -69,15 +69,35 @@ void readMeshJSON(const std::string& filename,
     }
 }
 
+// --- ADIÇÃO 3: Função para Salvar o Resultado ---
+void saveResultsJSON(const std::string& input_filename, 
+                     const std::string& output_filename, 
+                     const Eigen::VectorXd& uh) {
+    // Lê o arquivo original para manter os dados de entrada (features)
+    std::ifstream f(input_filename);
+    json data = json::parse(f);
+
+    // Converte o vetor Eigen para std::vector (flat array)
+    std::vector<double> solution_u(uh.data(), uh.data() + uh.size());
+    
+    // Adiciona ao JSON
+    data["solution_u"] = solution_u;
+
+    // Salva no caminho de destino
+    std::ofstream o(output_filename);
+    o << std::setw(4) << data << std::endl;
+}
+
 // ALTERAÇÃO: Adicionado argc e argv para ler do terminal
 int main(int argc, char* argv[]) {
 
-  // VERIFICAÇÃO DE ARGUMENTO (Para não dar crash se esquecer)
-  if (argc < 2) {
-      std::cerr << "Uso: ./run_single_case_2D <caminho_do_json>" << std::endl;
+  // VERIFICAÇÃO DE ARGUMENTO: Agora exige Input e Output
+  if (argc < 3) {
+      std::cerr << "Uso: ./run_single_case_2D <input_json> <output_json>" << std::endl;
       return 1;
   }
-  std::string json_path = argv[1]; // Pega o caminho passado pelo script Python
+  std::string json_path = argv[1];   // Arquivo de Entrada (Parameters)
+  std::string output_path = argv[2]; // Arquivo de Saída (Dataset Treino)
 
   material::mat elastic;
 
@@ -86,25 +106,22 @@ int main(int argc, char* argv[]) {
   elastic.setElasticModule(1e+0);
   double E = elastic.E;
 
-  // --- ALTERAÇÃO 1: Variáveis para receber os dados do JSON ---
+  // --- Variáveis para receber os dados do JSON ---
   Eigen::MatrixXd nodes;
   Eigen::MatrixXi elements;
   Eigen::MatrixXi supp;
   Eigen::MatrixXi load;
   double poisson_json;
 
-  // --- ALTERAÇÃO 2: Caminho do arquivo AGORA É DINÂMICO (json_path lido acima) ---
-  
+  // --- Leitura do arquivo dinâmico ---
   try {
       readMeshJSON(json_path, nodes, elements, supp, load, poisson_json);
-      // Removi os couts de sucesso/poisson para limpar o output do teste de velocidade
-      // Se quiser ver, pode manter. Mas para benchmark é melhor menos texto.
   } catch (const std::exception& e) {
       std::cerr << e.what() << std::endl;
       return -1;
   }
 
-  // --- ALTERAÇÃO 3: Usar o Poisson do JSON ---
+  // --- Usar o Poisson do JSON ---
   elastic.setPoissonCoef(poisson_json); 
   Eigen::MatrixXd C = elastic.build2DElasticity();
 
@@ -135,44 +152,8 @@ int main(int argc, char* argv[]) {
   }
 
   Eigen::VectorXd uh = K_.ldlt().solve(R_);
-  
-  int ne = elements.rows();
-  Eigen::MatrixXd sigma(ne, 3); // sigma_xx, sigma_yy, tau_xy
 
-  for (int e = 0; e < ne; e++) {
-
-    Eigen::MatrixXi elem = elements.row(e);
-    
-    Eigen::VectorXi dofs = op.getOrder1Indices(elem);
-
-    Eigen::MatrixXd coords = op.getCoordinatesPlane(elem, nodes);
-
-    Eigen::VectorXd ue(dofs.size());
-
-    for (int i = 0; i < dofs.size(); i++) {
-        ue(i) = uh(dofs(i));
-    }
-
-    Eigen::MatrixXd B = solver.buildB(coords);
-    Eigen::MatrixXd G = solver.buildG(coords);
-
-    Eigen::MatrixXd Bp = G.inverse() * B;
-
-    Eigen::VectorXd strain = Bp * ue;
-
-    Eigen::VectorXd stress = C * strain;
-
-    sigma.row(e) = stress.transpose();
-  }
-
-  double max_sigma_xx = sigma.col(0).maxCoeff();
-
-  double sigma0 = qx;
-
-  double FCT = max_sigma_xx / sigma0;
-
-  std::cout << "Max sigma_xx = " << max_sigma_xx << std::endl;
-
-  std::cout << "FCT = " << FCT << std::endl;
+  // --- ALTERAÇÃO FINAL: Salvar os resultados ---
+  saveResultsJSON(json_path, output_path, uh);
 
 }

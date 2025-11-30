@@ -60,11 +60,17 @@ middleware/polivem/polivem_py.*
 .DS_Store
 .ipynb_checkpoints
 
-# --- Dados pesados da malha (para rodar no Runpod) ---
-# Ignora tudo que está em 00_URGENTE/malha
-00_URGENTE/malha/**
+# --- Pastas para Ignorar Totalmente ---
+00_URGENTE/
 
-# Mas mantém a pasta parameters/meshes_5_samples (e tudo dentro dela)
-!00_URGENTE/malha/parameters/
-!00_URGENTE/malha/parameters/meshes_5_samples/
-!00_URGENTE/malha/parameters/meshes_5_samples/**
+# --- Lixo do Windows (Necessário pois você vai para Windows) ---
+Thumbs.db
+ehthumbs.db
+
+# --- Binários do Windows (Como seu projeto tem C++/Middleware) ---
+*.dll
+*.exe
+
+.tmp.driveupload/
+
+.tmp.drivedownload/
