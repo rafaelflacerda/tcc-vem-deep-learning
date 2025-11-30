@@ -1,0 +1,27 @@
+
+============================================================
+VEM Deep Learning Training
+============================================================
+Data/Hora Início: 2025-11-30 09:20:58
+Dataset: meshes_5_samples.npz
+Experimento: meshes_5_samples_20251130_092058
+
+HIPERPARÂMETROS:
+  Arquitetura: 6 camadas [256-256-128-128-64-64]
+  Batch size: 2048
+  Learning rate: 0.001
+  Optimizer: AdamW (weight_decay=1e-05)
+  Scheduler: ReduceLROnPlateau (patience=10, factor=0.5)
+  Epochs: 200
+  Precision: FP16
+  Device: NVIDIA GeForce RTX 4090
+  Early Stopping: Ativo (patience=20)
+  
+============================================================
+
+
+Carregando dados...
+
+Criando modelo...
+Parâmetros treináveis: 129,794
+Compilando modelo (torch.compile)...

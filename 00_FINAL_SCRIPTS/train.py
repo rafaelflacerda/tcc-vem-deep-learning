@@ -17,8 +17,11 @@ from dataloader import get_dataloaders
 
 # ==================== CONFIGURAÇÃO ====================
 # Dataset
-NPZ_FILE = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_npz/meshes_5_samples.npz"
-DATASET_NAME = "meshes_5_samples"
+N_SAMPLES = int(input("Quantos samples? (5, 10, 100, 1000, 10000): "))
+NPZ_FILE = PROJECT_ROOT / f"00_URGENTE/malha/training_dataset_npz/meshes_{N_SAMPLES}_samples.npz"
+DATASET_NAME = f"meshes_{N_SAMPLES}_samples"
+
+print(f"\n✓ Dataset selecionado: {DATASET_NAME}\n")
 
 # Hiperparâmetros
 BATCH_SIZE = 2048
@@ -92,7 +95,7 @@ train_loader, val_loader = get_dataloaders(
 
 # ==================== CRIAR MODELO ====================
 log_print("\nCriando modelo...")
-model = BayesianVEMNet(dropout_rate=0.1).to(DEVICE)
+model = BayesianVEMNet(dropout_rate=0.2).to(DEVICE)
 log_print(f"Parâmetros treináveis: {model.count_parameters():,}")
 
 # torch.compile (otimização L4)
@@ -110,8 +113,7 @@ scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
     optimizer,
     mode='min',
     factor=0.5,
-    patience=10,
-    verbose=True
+    patience=10
 )
 
 # Mixed Precision (FP16)
