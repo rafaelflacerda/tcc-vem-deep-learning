@@ -13,8 +13,8 @@ EXECUTAVEL = "./build/bin/run_single_case_2D"
 SAMPLES = input("Qual o tamanho do dataset que deseja processar (ex: 1000)? ").strip()
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
-INPUT_DIR = os.path.join(BASE_PATH, "parameters", f"meshes_{SAMPLES}_samples")
-OUTPUT_DIR = os.path.join(BASE_PATH, "training_dataset", f"meshes_{SAMPLES}_samples")
+INPUT_DIR = os.path.join(BASE_PATH, "00_URGENTE", "parameters", f"meshes_{SAMPLES}_samples")
+OUTPUT_DIR = os.path.join(BASE_PATH, "00_URGENTE", "training_dataset", f"meshes_{SAMPLES}_samples")
 
 def processar_caso(arquivo_input):
     """
