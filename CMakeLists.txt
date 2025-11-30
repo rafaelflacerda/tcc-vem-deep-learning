@@ -167,3 +167,29 @@ target_link_libraries(beam_main
     linear_algebra
     Eigen3::Eigen
 )
+
+add_executable(run_single_case_2D examples/run_single_case_2D.cpp)
+
+target_include_directories(run_single_case_2D PRIVATE
+    ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/lib
+    ${CMAKE_SOURCE_DIR}/lib/solver
+    ${CMAKE_SOURCE_DIR}/lib/material
+    ${CMAKE_SOURCE_DIR}/lib/utils
+    ${CMAKE_SOURCE_DIR}/mesh
+    ${EIGEN3_INCLUDE_DIR}
+)
+
+target_link_libraries(run_single_case_2D PRIVATE
+    mesh
+    solver
+    material
+    utils
+    linear_algebra
+    Eigen3::Eigen
+)
+
+set_target_properties(run_single_case_2D PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin
+)

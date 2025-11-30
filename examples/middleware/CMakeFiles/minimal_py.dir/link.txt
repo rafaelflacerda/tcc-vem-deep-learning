@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -Xlinker -undefined -Xlinker dynamic_lookup -flto -bundle -Wl,-headerpad_max_install_names -o ../python/minimal_py.cpython-314-darwin.so CMakeFiles/minimal_py.dir/src/minimal_module.cpp.o

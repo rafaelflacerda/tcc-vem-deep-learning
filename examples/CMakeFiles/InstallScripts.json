@@ -1,0 +1,13 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/rafaelflacerda/Desktop/tcc-vem-deep-learning/examples/cmake_install.cmake",
+		"/Users/rafaelflacerda/Desktop/tcc-vem-deep-learning/examples/lib/utils/cmake_install.cmake",
+		"/Users/rafaelflacerda/Desktop/tcc-vem-deep-learning/examples/lib/solver/cmake_install.cmake",
+		"/Users/rafaelflacerda/Desktop/tcc-vem-deep-learning/examples/lib/mesh/cmake_install.cmake",
+		"/Users/rafaelflacerda/Desktop/tcc-vem-deep-learning/examples/middleware/cmake_install.cmake",
+		"/Users/rafaelflacerda/Desktop/tcc-vem-deep-learning/examples/lib/tests/cmake_install.cmake",
+		"/Users/rafaelflacerda/Desktop/tcc-vem-deep-learning/examples/lib/linear_algebra/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

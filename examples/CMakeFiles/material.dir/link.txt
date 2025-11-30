@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -dynamiclib -Wl,-headerpad_max_install_names -o libmaterial.dylib -install_name @rpath/libmaterial.dylib CMakeFiles/material.dir/lib/material/mat.cpp.o

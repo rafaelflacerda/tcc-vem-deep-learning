@@ -11,15 +11,15 @@ class BeamNet(nn.Module):
         
         self.net = nn.Sequential(
             nn.Linear(input_dim, hidden_dim),
-            nn.Tanh(), # Tanh é excelente para física/mecânica (suave e contínua)
+            nn.GELU(), # Tanh é excelente para física/mecânica (suave e contínua)
             nn.Dropout(dropout_p),
             
             nn.Linear(hidden_dim, hidden_dim),
-            nn.Tanh(),
+            nn.GELU(),
             nn.Dropout(dropout_p),
             
             nn.Linear(hidden_dim, hidden_dim // 2),
-            nn.Tanh(),
+            nn.GELU(),
             nn.Dropout(dropout_p),
             
             nn.Linear(hidden_dim // 2, output_dim)
