@@ -17,8 +17,11 @@ from dataloader import get_dataloaders
 
 # ==================== CONFIGURAÇÃO ====================
 # Dataset
-NPZ_FILE = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_npz/meshes_5_samples.npz"
-DATASET_NAME = "meshes_5_samples"
+N_SAMPLES = int(input("Quantos samples? (5, 10, 100, 1000, 10000): "))
+NPZ_FILE = PROJECT_ROOT / f"00_URGENTE/malha/training_dataset_npz/meshes_{N_SAMPLES}_samples.npz"
+DATASET_NAME = f"meshes_{N_SAMPLES}_samples"
+
+print(f"\n✓ Dataset selecionado: {DATASET_NAME}\n")
 
 # Hiperparâmetros
 BATCH_SIZE = 2048
@@ -35,7 +38,24 @@ PATIENCE = 20  # Parar se não melhorar por N epochs
 SAVE_CHECKPOINT_EVERY = 50  # Salvar checkpoint a cada N epochs
 
 # Device
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+if not torch.cuda.is_available():
+    print("\n" + "="*60)
+    print("ERRO CRÍTICO: GPU não detectada!")
+    print("Este script REQUER GPU NVIDIA com CUDA.")
+    print("Verifique:")
+    print("  1. Você selecionou uma máquina com GPU?")
+    print("  2. Drivers CUDA estão instalados?")
+    print("  3. PyTorch foi instalado com suporte CUDA?")
+    print("="*60 + "\n")
+    raise RuntimeError("Treino abortado: GPU não encontrada")
+
+print("\n" + "="*60)
+print(f"✓ GPU detectada: {torch.cuda.get_device_name(0)}")
+print(f"✓ VRAM disponível: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
+print(f"✓ CUDA version: {torch.version.cuda}")
+print("="*60 + "\n")
+
+DEVICE = torch.device("cuda")
 
 # ==================== SETUP ====================
 # Timestamp

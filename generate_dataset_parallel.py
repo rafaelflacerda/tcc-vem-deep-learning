@@ -12,7 +12,7 @@ EXECUTAVEL = "./build/bin/run_single_case_2D"
 # 2. Definição das Pastas (Ajuste o número de samples aqui)
 SAMPLES = "500" # Mude para 100, 1000, etc.
 
-BASE_PATH = "/Users/rafaelflacerda/Desktop/tcc-vem-deep-learning/00_URGENTE/malha"
+BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(BASE_PATH, "parameters", f"meshes_{SAMPLES}_samples")
 OUTPUT_DIR = os.path.join(BASE_PATH, "training_dataset", f"meshes_{SAMPLES}_samples")
 
