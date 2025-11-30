@@ -9,7 +9,6 @@
 # Ignora a pasta de build inteira (onde ficam os executáveis)
 build/
 bin/
-lib/
 
 # --- Data & Outputs ---
 # Garante que datasets e resultados não subam

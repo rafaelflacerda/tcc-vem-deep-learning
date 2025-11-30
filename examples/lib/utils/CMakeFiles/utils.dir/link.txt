@@ -1,0 +1,2 @@
+/usr/bin/ar qc libutils.a CMakeFiles/utils.dir/operations.cpp.o CMakeFiles/utils.dir/integration.cpp.o CMakeFiles/utils.dir/logging.cpp.o CMakeFiles/utils.dir/boundary.cpp.o CMakeFiles/utils.dir/time_scheme.cpp.o CMakeFiles/utils.dir/errors.cpp.o CMakeFiles/utils.dir/matrix_helper.cpp.o
+/usr/bin/ranlib libutils.a

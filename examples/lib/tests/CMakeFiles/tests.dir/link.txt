@@ -1,0 +1,2 @@
+/usr/bin/ar qc libtests.a CMakeFiles/tests.dir/test_time_scheme.cpp.o CMakeFiles/tests.dir/test_linear_algebra.cpp.o
+/usr/bin/ranlib libtests.a

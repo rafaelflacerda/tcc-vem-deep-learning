@@ -17,6 +17,8 @@
 #include <limits>
 #include <stdexcept>
 #include <iostream>
+#include <vector>
+#include <cmath>
 
 
 namespace delaunay {

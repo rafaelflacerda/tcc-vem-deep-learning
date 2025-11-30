@@ -1,4 +1,6 @@
 #include "mesh/voronoi.hpp"
+#include <cmath>
+#include <vector>   // se usar std::vector aqui também
 
 namespace delaunay {
     void VoronoiDiagram::sortVerticesCounterClockwise(VoronoiCell* cell) {

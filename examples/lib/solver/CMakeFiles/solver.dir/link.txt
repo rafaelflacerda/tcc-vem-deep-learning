@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsolver.a CMakeFiles/solver.dir/beam1d.cpp.o CMakeFiles/solver.dir/linearElastic2d.cpp.o CMakeFiles/solver.dir/nonlinear2d.cpp.o CMakeFiles/solver.dir/axisymmetric.cpp.o CMakeFiles/solver.dir/parabolic.cpp.o
+/usr/bin/ranlib libsolver.a

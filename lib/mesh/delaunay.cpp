@@ -1,4 +1,6 @@
 #include "mesh/delaunay.hpp"
+#include <vector>
+#include <cmath>
 
 namespace delaunay {
     DelaunayPoint Triangle::calculateCircumcenter() const {
