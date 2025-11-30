@@ -60,3 +60,12 @@ middleware/polivem/polivem_py.*
 .idea/
 .DS_Store
 .ipynb_checkpoints
+
+# --- Dados pesados da malha (para rodar no Runpod) ---
+# Ignora tudo que está em 00_URGENTE/malha
+00_URGENTE/malha/**
+
+# Mas mantém a pasta parameters/meshes_5_samples (e tudo dentro dela)
+!00_URGENTE/malha/parameters/
+!00_URGENTE/malha/parameters/meshes_5_samples/
+!00_URGENTE/malha/parameters/meshes_5_samples/**
