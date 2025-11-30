@@ -10,7 +10,7 @@ import sys
 EXECUTAVEL = "./build/bin/run_single_case_2D"
 
 # 2. Definição das Pastas (Ajuste o número de samples aqui)
-SAMPLES = "500" # Mude para 100, 1000, etc.
+SAMPLES = input("Qual o tamanho do dataset que deseja processar (ex: 1000)? ").strip()
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 INPUT_DIR = os.path.join(BASE_PATH, "parameters", f"meshes_{SAMPLES}_samples")

@@ -8,8 +8,8 @@ SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 
 # Configuração
-JSON_DIR = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_json/meshes_500_samples"
-OUTPUT_FILE = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_npz/meshes_500_samples.npz"
+JSON_DIR = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_json/meshes_1000_samples"
+OUTPUT_FILE = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_npz/meshes_1000_samples.npz"
 
 # Criar pasta de saída se não existir
 OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
