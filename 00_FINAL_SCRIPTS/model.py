@@ -17,32 +17,32 @@ class BayesianVEMNet(nn.Module):
         self.network = nn.Sequential(
             # Bloco 1
             nn.Linear(7, 256),
-            nn.Tanh(),
+            nn.SiLU(),
             nn.Dropout(dropout_rate),
             
             # Bloco 2
             nn.Linear(256, 256),
-            nn.Tanh(),
+            nn.SiLU(),
             nn.Dropout(dropout_rate),
             
             # Bloco 3
             nn.Linear(256, 128),
-            nn.Tanh(),
+            nn.SiLU(),
             nn.Dropout(dropout_rate),
             
             # Bloco 4
             nn.Linear(128, 128),
-            nn.Tanh(),
+            nn.SiLU(),
             nn.Dropout(dropout_rate),
             
             # Bloco 5
             nn.Linear(128, 64),
-            nn.Tanh(),
+            nn.SiLU(),
             nn.Dropout(dropout_rate),
             
             # Bloco 6
             nn.Linear(64, 64),
-            nn.Tanh(),
+            nn.SiLU(),
             nn.Dropout(dropout_rate),
             
             # Output (sem ativação)
@@ -73,12 +73,14 @@ class BayesianVEMNet(nn.Module):
         
         with torch.no_grad():
             for _ in range(n_samples):
-                pred = self(x).cpu().numpy()
-                predictions.append(pred)
+                pred = self(x)  # Permanece NA GPU!
+                preds.append(pred)
         
-        predictions = np.array(predictions)  # (n_samples, N, 2)
-        mean = predictions.mean(axis=0)
-        std = predictions.std(axis=0)
+        preds = torch.stack(preds, dim = 0)
+        
+        #predictions = np.array(predictions)  # (n_samples, N, 2)
+        mean = preds.mean(dim=0)
+        std = preds.std(dim=0)
         
         return mean, std
     
@@ -99,7 +101,7 @@ if __name__ == "__main__":
     print(f"Output shape: {y_test.shape}")
     
     # Teste MC Dropout
-    mean, std = model.mc_dropout_predict(x_test, n_samples=50, device='cpu')
+    mean, std = model.mc_dropout_predict(x_test, n_samples=50, device='cuda')
     print(f"Mean shape: {mean.shape}")
     print(f"Std shape: {std.shape}")
     print("✓ Modelo validado")

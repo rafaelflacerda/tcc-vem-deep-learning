@@ -6,6 +6,7 @@ from pathlib import Path
 from datetime import datetime
 import time
 import sys
+import argparse
 
 # Adicionar pasta ao path
 SCRIPT_DIR = Path(__file__).parent
@@ -17,21 +18,32 @@ from dataloader import get_dataloaders
 
 # ==================== CONFIGURAÇÃO ====================
 # Dataset
-N_SAMPLES = int(input("Quantos samples? (5, 10, 100, 1000, 10000): "))
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--batch_size", type=int, default=2048)
+parser.add_argument("--lr", type=float, default=1e-3)
+parser.add_argument("--n_samples", type = int, default=1000)
+args = parser.parse_args()
+
+N_SAMPLES = args.n_samples
+#N_SAMPLES = int(input("Quantos samples? (5, 10, 100, 1000, 10000): "))
 NPZ_FILE = PROJECT_ROOT / f"00_URGENTE/malha/training_dataset_npz/meshes_{N_SAMPLES}_samples.npz"
 DATASET_NAME = f"meshes_{N_SAMPLES}_samples"
 
 print(f"\n✓ Dataset selecionado: {DATASET_NAME}\n")
 
 # Hiperparâmetros
-BATCH_SIZE = 2048
-LEARNING_RATE = 1e-3
+
+BATCH_SIZE = args.batch_size
+LEARNING_RATE = args.lr
+
 WEIGHT_DECAY = 1e-5
-EPOCHS = 200
-NUM_WORKERS = 8
+EPOCHS = 400
+NUM_WORKERS = 7
 
 # Early Stopping (deixe False para desativar)
-EARLY_STOPPING = True
+EARLY_STOPPING = False
 PATIENCE = 20  # Parar se não melhorar por N epochs
 
 # Checkpointing
@@ -39,21 +51,7 @@ SAVE_CHECKPOINT_EVERY = 50  # Salvar checkpoint a cada N epochs
 
 # Device
 if not torch.cuda.is_available():
-    print("\n" + "="*60)
-    print("ERRO CRÍTICO: GPU não detectada!")
-    print("Este script REQUER GPU NVIDIA com CUDA.")
-    print("Verifique:")
-    print("  1. Você selecionou uma máquina com GPU?")
-    print("  2. Drivers CUDA estão instalados?")
-    print("  3. PyTorch foi instalado com suporte CUDA?")
-    print("="*60 + "\n")
-    raise RuntimeError("Treino abortado: GPU não encontrada")
-
-print("\n" + "="*60)
-print(f"✓ GPU detectada: {torch.cuda.get_device_name(0)}")
-print(f"✓ VRAM disponível: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} GB")
-print(f"✓ CUDA version: {torch.version.cuda}")
-print("="*60 + "\n")
+    raise RuntimeError("❌ Nenhuma GPU CUDA disponível! Abortando execução.")
 
 DEVICE = torch.device("cuda")
 
@@ -89,10 +87,10 @@ HIPERPARÂMETROS:
   Batch size: {BATCH_SIZE}
   Learning rate: {LEARNING_RATE}
   Optimizer: AdamW (weight_decay={WEIGHT_DECAY})
-  Scheduler: ReduceLROnPlateau (patience=10, factor=0.5)
+  Scheduler: CosineAnnealingLR
   Epochs: {EPOCHS}
   Precision: FP16
-  Device: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU'}
+  Device: {torch.cuda.get_device_name(0)}
   Early Stopping: {'Ativo (patience=' + str(PATIENCE) + ')' if EARLY_STOPPING else 'Desativado'}
   
 {'='*60}
@@ -112,7 +110,7 @@ train_loader, val_loader = get_dataloaders(
 
 # ==================== CRIAR MODELO ====================
 log_print("\nCriando modelo...")
-model = BayesianVEMNet(dropout_rate=0.1).to(DEVICE)
+model = BayesianVEMNet(dropout_rate=0.2).to(DEVICE)
 log_print(f"Parâmetros treináveis: {model.count_parameters():,}")
 
 # torch.compile (otimização L4)
@@ -126,12 +124,17 @@ optimizer = torch.optim.AdamW(
     weight_decay=WEIGHT_DECAY
 )
 
-scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+#scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+#    optimizer,
+#    mode='min',
+#    factor=0.5,
+#    patience=10
+#)
+
+scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
     optimizer,
-    mode='min',
-    factor=0.5,
-    patience=10,
-    verbose=True
+    T_max=EPOCHS,
+    eta_min=1e-6
 )
 
 # Mixed Precision (FP16)
@@ -206,7 +209,8 @@ for epoch in range(1, EPOCHS + 1):
     val_losses.append(val_loss)
     
     # Scheduler step
-    scheduler.step(val_loss)
+    #scheduler.step(val_loss)
+    scheduler.step()
     current_lr = optimizer.param_groups[0]['lr']
     
     # ========== LOGGING ==========
