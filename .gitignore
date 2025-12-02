@@ -81,3 +81,5 @@ ml/
 gmsh/
 
 docs/
+
+*.npz
