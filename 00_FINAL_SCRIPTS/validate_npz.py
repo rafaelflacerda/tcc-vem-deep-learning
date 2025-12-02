@@ -6,8 +6,8 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
 
-NPZ_FILE = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_npz/meshes_500_samples.npz"
-JSON_DIR = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_json/meshes_500_samples"
+NPZ_FILE = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_npz/meshes_2500_samples.npz"
+JSON_DIR = PROJECT_ROOT / "00_URGENTE/malha/training_dataset_json/meshes_2500_samples"
 
 # Carregar NPZ
 print("Carregando NPZ...")

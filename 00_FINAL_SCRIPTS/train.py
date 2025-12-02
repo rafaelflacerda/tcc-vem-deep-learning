@@ -166,7 +166,9 @@ for epoch in range(1, EPOCHS + 1):
     
     for X_batch, Y_batch in train_loader:
         X_batch = X_batch.to(DEVICE)
+        X_batch.requires_grad_(True)
         Y_batch = Y_batch.to(DEVICE)
+        Y_batch.requires_grad_(True)
         
         optimizer.zero_grad()
         

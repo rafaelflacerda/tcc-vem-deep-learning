@@ -30,6 +30,8 @@ for jfile in tqdm(json_files):
     H = data['H']
     R = data['R']
     nu = data['poisson']
+    lambda_fct = data['lambda_fct']
+    k_t = data[]
     
     nodes = np.array(data['nodes'])
     solution_flat = np.array(data['solution_u'])

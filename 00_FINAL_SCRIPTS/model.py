@@ -67,7 +67,7 @@ class BayesianVEMNet(nn.Module):
             std: Incerteza epistêmica (N, 2)
         """
         self.train()  # Mantém dropout ATIVO
-        predictions = []
+        preds = []
         
         x = x.to(device)
         
@@ -82,7 +82,7 @@ class BayesianVEMNet(nn.Module):
         mean = preds.mean(dim=0)
         std = preds.std(dim=0)
         
-        return mean, std
+        return mean.cpu(), std.cpu()
     
     def count_parameters(self):
         """Conta número de parâmetros treináveis"""
