@@ -10,14 +10,24 @@ import sys
 EXECUTAVEL = "./build/bin/run_single_case_2D"
 
 # 2. Definição das Pastas (Ajuste o número de samples aqui)
-SAMPLES = input("Qual o tamanho do dataset que deseja processar (ex: 1000)? ").strip()
+SAMPLES = "2500"
 
 BASE_PATH = os.path.dirname(os.path.abspath(__file__))
 
-INPUT_DIR = os.path.join(BASE_PATH, "00_URGENTE", "malha", "parameters", f"meshes_{SAMPLES}_samples") 
+INPUT_DIR = os.path.join(
+    BASE_PATH,
+    "00_URGENTE", "malha",
+    "training_dataset",
+    f"meshes_{SAMPLES}_samples"
+)
 
 # Mantemos OUTPUT_DIR como estava, pois 'training_dataset' está diretamente em '00_URGENTE'
-OUTPUT_DIR = os.path.join(BASE_PATH, "00_URGENTE", "training_dataset", f"meshes_{SAMPLES}_samples")
+OUTPUT_DIR = os.path.join(
+    BASE_PATH,
+    "00_URGENTE", "malha",
+    "training_dataset_json_sigma",  # por exemplo, nova pasta
+    f"meshes_{SAMPLES}_samples"
+)
 
 def processar_caso(arquivo_input):
     """
@@ -29,7 +39,7 @@ def processar_caso(arquivo_input):
     
     # Define o nome do arquivo de saída (ex: result_data_0.json)
     # Trocamos 'mesh' por 'result' para diferenciar
-    nome_saida = nome_arq.replace("mesh_data", "result_data")
+    nome_saida = nome_arq
     
     # Cria o caminho completo de saída
     arquivo_output = os.path.join(OUTPUT_DIR, nome_saida)
@@ -73,8 +83,8 @@ def main():
         print(f"Erro: Pasta de entrada não encontrada: {INPUT_DIR}")
         return
 
-    arquivos = glob.glob(os.path.join(INPUT_DIR, "mesh_data_*.json"))
-    arquivos.sort() # Opcional, só para organizar a lista interna
+    arquivos = glob.glob(os.path.join(INPUT_DIR, "result_data_*.json"))
+    #arquivos.sort() # Opcional, só para organizar a lista interna
     total_arquivos = len(arquivos)
     
     if total_arquivos == 0:

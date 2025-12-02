@@ -15,88 +15,55 @@ sys.path.append(str(SCRIPT_DIR))
 
 from model import BayesianVEMNet
 from dataloader import get_dataloaders
+from logging_utils import setup_experiment_logging
+from sobolev_utils import compute_element_centroids, build_sigma_inputs_for_case, build_C_plane_stress, compute_sigma_pred_for_case, sobolev_stress_loss_for_case
+# (deixa comentado por enquanto, só vamos usar quando plugar a loss de Sobolev)
 
 # ==================== CONFIGURAÇÃO ====================
-# Dataset
-
 parser = argparse.ArgumentParser()
-
 parser.add_argument("--batch_size", type=int, default=2048)
 parser.add_argument("--lr", type=float, default=1e-3)
-parser.add_argument("--n_samples", type = int, default=1000)
+parser.add_argument("--n_samples", type=int, default=1000)
 args = parser.parse_args()
 
 N_SAMPLES = args.n_samples
-#N_SAMPLES = int(input("Quantos samples? (5, 10, 100, 1000, 10000): "))
 NPZ_FILE = PROJECT_ROOT / f"00_URGENTE/malha/training_dataset_npz/meshes_{N_SAMPLES}_samples.npz"
 DATASET_NAME = f"meshes_{N_SAMPLES}_samples"
 
 print(f"\n✓ Dataset selecionado: {DATASET_NAME}\n")
 
-# Hiperparâmetros
-
 BATCH_SIZE = args.batch_size
 LEARNING_RATE = args.lr
-
 WEIGHT_DECAY = 1e-5
 EPOCHS = 400
 NUM_WORKERS = 7
 
-# Early Stopping (deixe False para desativar)
 EARLY_STOPPING = False
-PATIENCE = 20  # Parar se não melhorar por N epochs
+PATIENCE = 20
 
-# Checkpointing
-SAVE_CHECKPOINT_EVERY = 50  # Salvar checkpoint a cada N epochs
+SAVE_CHECKPOINT_EVERY = 50
 
-# Device
+# Peso da loss de tensões (Sobolev)
+LAMBDA_SIGMA = 0.1  # pode começar pequeno e ir ajustando
+
+# Número máximo de casos por epoch para aplicar Sobolev (para controle, se quiser)
+MAX_SOB_CASES_PER_EPOCH = None  # ou um int, tipo 10 se quiser limitar
+
 if not torch.cuda.is_available():
     raise RuntimeError("❌ Nenhuma GPU CUDA disponível! Abortando execução.")
-
 DEVICE = torch.device("cuda")
 
-# ==================== SETUP ====================
-# Timestamp
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-experiment_name = f"{DATASET_NAME}_{timestamp}"
-
-# Criar pasta do experimento
-experiment_dir = PROJECT_ROOT / "models" / experiment_name
-experiment_dir.mkdir(parents=True, exist_ok=True)
-
-# Arquivo de log
-log_file = experiment_dir / "training_log.txt"
-
-def log_print(message, file=log_file):
-    """Print e salva no log"""
-    print(message)
-    with open(file, 'a') as f:
-        f.write(message + '\n')
-
-# ==================== CABEÇALHO DO LOG ====================
-header = f"""
-{'='*60}
-VEM Deep Learning Training
-{'='*60}
-Data/Hora Início: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
-Dataset: {DATASET_NAME}.npz
-Experimento: {experiment_name}
-
-HIPERPARÂMETROS:
-  Arquitetura: 6 camadas [256-256-128-128-64-64]
-  Batch size: {BATCH_SIZE}
-  Learning rate: {LEARNING_RATE}
-  Optimizer: AdamW (weight_decay={WEIGHT_DECAY})
-  Scheduler: CosineAnnealingLR
-  Epochs: {EPOCHS}
-  Precision: FP16
-  Device: {torch.cuda.get_device_name(0)}
-  Early Stopping: {'Ativo (patience=' + str(PATIENCE) + ')' if EARLY_STOPPING else 'Desativado'}
-  
-{'='*60}
-"""
-
-log_print(header)
+# ==================== LOGGING / EXPERIMENTO ====================
+experiment_dir, experiment_name, log_print = setup_experiment_logging(
+    project_root=PROJECT_ROOT,
+    dataset_name=DATASET_NAME,
+    batch_size=BATCH_SIZE,
+    learning_rate=LEARNING_RATE,
+    weight_decay=WEIGHT_DECAY,
+    epochs=EPOCHS,
+    early_stopping=EARLY_STOPPING,
+    patience=PATIENCE
+)
 
 # ==================== CARREGAR DADOS ====================
 log_print("\nCarregando dados...")
@@ -108,28 +75,31 @@ train_loader, val_loader = get_dataloaders(
     seed=42
 )
 
+has_sobolev = (
+    hasattr(train_loader, "case_nodes")
+    and train_loader.case_nodes is not None
+    and hasattr(train_loader, "case_sigma")
+    and train_loader.case_sigma is not None
+)
+
+if has_sobolev:
+    log_print("Sobolev: tensões + malha disponíveis. Loss de Sobolev será usada no treino.")
+else:
+    log_print("Sobolev: tensões/malha NÃO disponíveis. Treino apenas com MSE de deslocamento.")
+
 # ==================== CRIAR MODELO ====================
 log_print("\nCriando modelo...")
 model = BayesianVEMNet(dropout_rate=0.2).to(DEVICE)
 log_print(f"Parâmetros treináveis: {model.count_parameters():,}")
 
-# torch.compile (otimização L4)
 log_print("Compilando modelo (torch.compile)...")
 model = torch.compile(model)
 
-# ==================== OPTIMIZER & SCHEDULER ====================
 optimizer = torch.optim.AdamW(
     model.parameters(),
     lr=LEARNING_RATE,
     weight_decay=WEIGHT_DECAY
 )
-
-#scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
-#    optimizer,
-#    mode='min',
-#    factor=0.5,
-#    patience=10
-#)
 
 scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
     optimizer,
@@ -137,22 +107,13 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
     eta_min=1e-6
 )
 
-# Mixed Precision (FP16)
 scaler = GradScaler()
-
-# Loss function
 criterion = nn.MSELoss()
 
-# ==================== TRACKING ====================
 best_val_loss = float('inf')
 epochs_without_improvement = 0
 train_losses = []
 val_losses = []
-
-# Cabeçalho da tabela
-log_print("\n" + "="*80)
-log_print(f"{'Epoch':<8}{'Train Loss':<15}{'Val Loss':<15}{'LR':<12}{'Time(s)':<10}{'Best':<5}")
-log_print("="*80)
 
 # ==================== LOOP DE TREINO ====================
 start_time = time.time()
@@ -164,23 +125,52 @@ for epoch in range(1, EPOCHS + 1):
     model.train()
     train_loss = 0.0
     
-    for X_batch, Y_batch in train_loader:
+    for X_batch, Y_batch, case_batch in train_loader:
         X_batch = X_batch.to(DEVICE)
         X_batch.requires_grad_(True)
+        
         Y_batch = Y_batch.to(DEVICE)
-        Y_batch.requires_grad_(True)
+        
+        case_batch = case_batch.to(DEVICE)
         
         optimizer.zero_grad()
         
-        # Forward com FP16
         with autocast():
             Y_pred = model(X_batch)
-            loss = criterion(Y_pred, Y_batch)
+            loss_u = criterion(Y_pred, Y_batch)  # (por enquanto só MSE de deslocamento)
+            
+        loss = loss_u
         
-        # Backward com scaling
+                # -------- Loss de tensões (Sobolev) por caso --------
+        if LAMBDA_SIGMA > 0.0 and train_loader.case_sigma is not None:
+            unique_cases_batch = case_batch.unique()
+            loss_sigma_total = 0.0
+            n_cases_sigma = 0
+
+            for c in unique_cases_batch:
+                c_int = int(c.item())
+                if c_int not in train_loader.case_sigma:
+                    continue
+
+                # Desliga o autocast aqui para não ter doideira com autograd de 2ª ordem
+                with torch.cuda.amp.autocast(enabled=False):
+                    loss_sigma_c = sobolev_stress_loss_for_case(
+                        model=model,
+                        case_id=c_int,
+                        loader=train_loader,
+                        device=DEVICE,
+                        reduction="mean",
+                    )
+                loss_sigma_total = loss_sigma_total + loss_sigma_c
+                n_cases_sigma += 1
+
+            if n_cases_sigma > 0:
+                loss_sigma_mean = loss_sigma_total / n_cases_sigma
+                loss = loss + LAMBDA_SIGMA * loss_sigma_mean
+        # ----------------------------------------------------
+        
         scaler.scale(loss).backward()
         
-        # Gradient clipping
         scaler.unscale_(optimizer)
         torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
         
@@ -197,7 +187,7 @@ for epoch in range(1, EPOCHS + 1):
     val_loss = 0.0
     
     with torch.no_grad():
-        for X_batch, Y_batch in val_loader:
+        for X_batch, Y_batch, case_batch in val_loader:
             X_batch = X_batch.to(DEVICE)
             Y_batch = Y_batch.to(DEVICE)
             
@@ -210,12 +200,9 @@ for epoch in range(1, EPOCHS + 1):
     val_loss /= len(val_loader)
     val_losses.append(val_loss)
     
-    # Scheduler step
-    #scheduler.step(val_loss)
     scheduler.step()
     current_lr = optimizer.param_groups[0]['lr']
     
-    # ========== LOGGING ==========
     epoch_time = time.time() - epoch_start
     is_best = val_loss < best_val_loss
     best_marker = '*' if is_best else ''
@@ -226,7 +213,6 @@ for epoch in range(1, EPOCHS + 1):
     )
     
     # ========== CHECKPOINTING ==========
-    # Salvar best model
     if is_best:
         best_val_loss = val_loss
         epochs_without_improvement = 0
@@ -237,7 +223,6 @@ for epoch in range(1, EPOCHS + 1):
     else:
         epochs_without_improvement += 1
     
-    # Salvar last model (sempre sobrescreve)
     torch.save({
         'epoch': epoch,
         'model_state': model.state_dict(),
@@ -249,7 +234,6 @@ for epoch in range(1, EPOCHS + 1):
         'val_losses': val_losses
     }, experiment_dir / "last_model.pth")
     
-    # Salvar checkpoint periódico
     if epoch % SAVE_CHECKPOINT_EVERY == 0:
         torch.save({
             'epoch': epoch,
@@ -262,7 +246,6 @@ for epoch in range(1, EPOCHS + 1):
             'val_losses': val_losses
         }, experiment_dir / f"checkpoint_epoch_{epoch}.pth")
     
-    # ========== EARLY STOPPING ==========
     if EARLY_STOPPING and epochs_without_improvement >= PATIENCE:
         log_print("\n" + "="*80)
         log_print(f"Early stopping! Sem melhora por {PATIENCE} epochs.")

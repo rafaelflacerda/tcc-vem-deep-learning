@@ -3,19 +3,19 @@
 #include "utils/operations.hpp"
 #include <iomanip>
 
-// --- ADIÇÃO 1: Biblioteca JSON ---
+// Biblioteca JSON
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <array>
 #include "json.hpp" // Certifique-se que este arquivo está acessível
 using json = nlohmann::json;
 
-// --- ADIÇÃO 2: Função de Leitura do JSON ---
+// Função de Leitura do JSON
 void readMeshJSON(const std::string& filename, 
                   Eigen::MatrixXd& nodes, 
                   Eigen::MatrixXi& elements, 
-                  Eigen::MatrixXi& supp, 
-                  Eigen::MatrixXi& load,
+                  Eigen::VectorXd& uh,
                   double& poisson_val) {
     
     std::ifstream f(filename);
@@ -47,41 +47,30 @@ void readMeshJSON(const std::string& filename,
         }
     }
 
-    // 4. Ler Supp
-    std::vector<std::vector<int>> vec_supp = data["supp"];
-    if (!vec_supp.empty()) {
-        supp.resize(vec_supp.size(), 3);
-        for(size_t i=0; i<vec_supp.size(); ++i) {
-            supp(i, 0) = vec_supp[i][0];
-            supp(i, 1) = vec_supp[i][1];
-            supp(i, 2) = vec_supp[i][2];
-        }
+    // 4. Ler deslocamentos globais uh
+    std::vector<double> vec_u = data["solution_u"];   // <-- nome do campo no JSON
+    uh.resize(vec_u.size());
+    for (size_t i = 0; i < vec_u.size(); ++i) {
+        uh(i) = vec_u[i];
     }
 
-    // 5. Ler Load
-    std::vector<std::vector<int>> vec_load = data["load"];
-    if (!vec_load.empty()) {
-        load.resize(vec_load.size(), 2);
-        for(size_t i=0; i<vec_load.size(); ++i) {
-            load(i, 0) = vec_load[i][0];
-            load(i, 1) = vec_load[i][1];
-        }
-    }
 }
 
-// --- ADIÇÃO 3: Função para Salvar o Resultado ---
+// Função para Salvar o Resultado
 void saveResultsJSON(const std::string& input_filename, 
                      const std::string& output_filename, 
-                     const Eigen::VectorXd& uh) {
+                     const Eigen::MatrixXd& sigma) {
     // Lê o arquivo original para manter os dados de entrada (features)
     std::ifstream f(input_filename);
     json data = json::parse(f);
 
-    // Converte o vetor Eigen para std::vector (flat array)
-    std::vector<double> solution_u(uh.data(), uh.data() + uh.size());
-    
-    // Adiciona ao JSON
-    data["solution_u"] = solution_u;
+    // 2) sigma por elemento: (ne x 3)
+    int ne = sigma.rows();
+    std::vector<std::array<double,3>> sigma_vec(ne);
+    for (int e = 0; e < ne; ++e) {
+        sigma_vec[e] = { sigma(e,0), sigma(e,1), sigma(e,2) };
+    }
+    data["sigma_elements"] = sigma_vec;  // por exemplo
 
     // Salva no caminho de destino
     std::ofstream o(output_filename);
@@ -91,11 +80,12 @@ void saveResultsJSON(const std::string& input_filename,
 // ALTERAÇÃO: Adicionado argc e argv para ler do terminal
 int main(int argc, char* argv[]) {
 
-  // VERIFICAÇÃO DE ARGUMENTO: Agora exige Input e Output
+  // VERIFICAÇÃO DE ARGUMENTO (Para não dar crash se esquecer)
   if (argc < 3) {
       std::cerr << "Uso: ./run_single_case_2D <input_json> <output_json>" << std::endl;
       return 1;
   }
+  
   std::string json_path = argv[1];   // Arquivo de Entrada (Parameters)
   std::string output_path = argv[2]; // Arquivo de Saída (Dataset Treino)
 
@@ -106,54 +96,62 @@ int main(int argc, char* argv[]) {
   elastic.setElasticModule(1e+0);
   double E = elastic.E;
 
-  // --- Variáveis para receber os dados do JSON ---
+  // Variáveis para receber os dados do JSON
   Eigen::MatrixXd nodes;
   Eigen::MatrixXi elements;
-  Eigen::MatrixXi supp;
-  Eigen::MatrixXi load;
+  Eigen::VectorXd uh;
   double poisson_json;
 
-  // --- Leitura do arquivo dinâmico ---
+  // --- ALTERAÇÃO 2: Caminho do arquivo AGORA É DINÂMICO (json_path lido acima) ---
+  
   try {
-      readMeshJSON(json_path, nodes, elements, supp, load, poisson_json);
+      readMeshJSON(json_path, nodes, elements, uh, poisson_json);
+      // Removi os couts de sucesso/poisson para limpar o output do teste de velocidade
+      // Se quiser ver, pode manter. Mas para benchmark é melhor menos texto.
   } catch (const std::exception& e) {
       std::cerr << e.what() << std::endl;
       return -1;
   }
 
-  // --- Usar o Poisson do JSON ---
+  // Usar o Poisson do JSON
   elastic.setPoissonCoef(poisson_json); 
   Eigen::MatrixXd C = elastic.build2DElasticity();
 
   // --- CÓDIGO ORIGINAL CONTINUA AQUI ---
-  
-  double qx = 1; // Carga Unitária (ou pequena) para regime linear
-  double qy = 0;
 
   int order = 1;
   
   solver::linearElastic2d solver(nodes, elements, order);
+  
+  int ne = elements.rows();
+  Eigen::MatrixXd sigma(ne, 3); // sigma_xx, sigma_yy, tau_xy
 
-  solver.setSupp(supp);
-  solver.setLoad(load);
+  for (int e = 0; e < ne; e++) {
 
-  Eigen::MatrixXd K = solver.buildGlobalK(C);
+    Eigen::MatrixXi elem = elements.row(e);
+    
+    Eigen::VectorXi dofs = op.getOrder1Indices(elem);
 
-  Eigen::MatrixXd K_ = solver.applyDBC(K);
+    Eigen::MatrixXd coords = op.getCoordinatesPlane(elem, nodes);
 
-  Eigen::VectorXd f =  solver.applyNBC(qx, qy);
+    Eigen::VectorXd ue(dofs.size());
 
-  Eigen::VectorXd R_ = f;
+    for (int i = 0; i < dofs.size(); i++) {
+        ue(i) = uh(dofs(i));
+    }
 
-  for (int i = 0; i < supp.rows(); i++) {
-    int node = supp(i,0);
-    if (supp(i,1) == 1) R_(2*node)   = 0.0;
-    if (supp(i,2) == 1) R_(2*node+1) = 0.0;
+    Eigen::MatrixXd B = solver.buildB(coords);
+    Eigen::MatrixXd G = solver.buildG(coords);
+
+    Eigen::MatrixXd Bp = G.inverse() * B;
+
+    Eigen::VectorXd strain = Bp * ue;
+
+    Eigen::VectorXd stress = C * strain;
+
+    sigma.row(e) = stress.transpose();
   }
 
-  Eigen::VectorXd uh = K_.ldlt().solve(R_);
-
-  // --- ALTERAÇÃO FINAL: Salvar os resultados ---
-  saveResultsJSON(json_path, output_path, uh);
+  saveResultsJSON(json_path, output_path, sigma);
 
 }
