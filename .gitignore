@@ -27,12 +27,6 @@ __pycache__/
 .coverage
 htmlcov/
 # Ignora ambientes virtuais (vários nomes comuns)
-env/
-venv/
-venv_polivem/
-.env
-.venv
-ENV/
 
 # --- Model Weights & Scalers (SEGURANÇA EXTRA) ---
 # Evita subir modelos pesados se você salvar fora da pasta output
@@ -76,7 +70,6 @@ ehthumbs.db
 
 examples/
 
-ml/
 
 gmsh/
 
@@ -84,6 +77,5 @@ docs/
 
 *.npz
 
+ml/experiments_NEW/
 ml/experiments_OLD_OLD/
-
-/ml/experiments_OLD_OLD/
