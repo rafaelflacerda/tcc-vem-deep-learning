@@ -26,6 +26,7 @@ __pycache__/
 .pytest_cache/
 .coverage
 htmlcov/
+
 # Ignora ambientes virtuais (vários nomes comuns)
 env/
 venv/
@@ -36,10 +37,10 @@ ENV/
 
 # --- Model Weights & Scalers (SEGURANÇA EXTRA) ---
 # Evita subir modelos pesados se você salvar fora da pasta output
-*.pth
-*.pt
-*.pkl
-*.ckpt
+#*.pth
+#*.pt
+#*.pkl
+#*.ckpt
 
 # --- Packaging ---
 *.egg-info/
@@ -71,19 +72,3 @@ ehthumbs.db
 .tmp.driveupload/
 
 .tmp.drivedownload/
-
-00_URGENTE/
-
-examples/
-
-ml/
-
-gmsh/
-
-docs/
-
-*.npz
-
-ml/experiments_OLD_OLD/
-
-/ml/experiments_OLD_OLD/
