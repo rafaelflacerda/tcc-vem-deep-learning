@@ -79,3 +79,5 @@ docs/
 
 ml/experiments_NEW/
 ml/experiments_OLD_OLD/
+
+.venv/
