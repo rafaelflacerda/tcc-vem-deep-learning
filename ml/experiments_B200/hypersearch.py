@@ -6,13 +6,17 @@ from dataclasses import dataclass, asdict
 from typing import Dict, Any, List, Tuple, Optional
 import json
 import time
-import datetime
-
+from datetime import datetime
 import torch  # para detectar quantas GPUs existem
 
 # ============================================================
 # CONFIGURAÇÕES GERAIS
 # ============================================================
+
+# ===== CONFIGURAÇÕES DOS NOVOS CRITÉRIOS =====
+USE_COMBINED_METRIC = True       # se False, usa lógica antiga
+BETA_SOB = 0.25                  # peso da sobolev loss na métrica combinada
+REFINE_PERCENT = 0.20            # 20% para reprocessar subset
 
 TRAIN_SCRIPT = "train-Copy1.py"  # caminho para o seu script de treino
 
@@ -71,7 +75,6 @@ class TrainMetrics:
             tempo_medio_por_epoch=float(d["tempo_medio_por_epoch"]),
         )
 
-
 @dataclass
 class ExperimentResult:
     params: HyperParams
@@ -80,10 +83,8 @@ class ExperimentResult:
     stderr: str
     elapsed_s: float
 
-
 # Registro global de todos os experimentos
 ALL_EXPERIMENTS: List[Dict[str, Any]] = []
-
 
 # ============================================================
 # FUNÇÕES AUXILIARES
@@ -104,7 +105,6 @@ def assign_devices_round_robin(configs: List[HyperParams], n_gpus: int) -> None:
     for i, cfg in enumerate(configs):
         cfg.device_id = i % n_gpus
 
-
 def build_command(params: HyperParams) -> List[str]:
     """
     Monta o comando para chamar o train.py.
@@ -120,9 +120,9 @@ def build_command(params: HyperParams) -> List[str]:
         "--dropout", str(params.dropout_p),
         "--weight_decay", str(params.weight_decay),
         "--epochs", str(params.epochs),
+        "--disable_artifacts",
     ]
     return cmd
-
 
 def parse_metrics_from_stdout(stdout: str) -> TrainMetrics:
     """
@@ -170,7 +170,6 @@ def parse_metrics_from_stdout(stdout: str) -> TrainMetrics:
         data[key] = val
 
     return TrainMetrics.from_dict(data)
-
 
 def run_single_training(params: HyperParams) -> ExperimentResult:
     cmd = build_command(params)
@@ -232,30 +231,92 @@ def run_experiments_parallel(configs: List[HyperParams], max_workers: int) -> Li
                 print(f"[FALHA] Treino com params={cfg} falhou: {e}")
     return results
 
+def timestamp():
+    """Retorna o horário atual para logs."""
+    return datetime.now().strftime("%H:%M:%S")
+
+
+def combined_metric(r):
+    """score = w_mse + beta * sobolev"""
+    return r.metrics.best_val_w_mse + BETA_SOB * r.metrics.best_val_sobolev_loss
 
 def pick_best_config(results: List[ExperimentResult]) -> ExperimentResult:
     """
-    Critério:
-      1) menor best_val_w_mse
-      2) empate: menor best_val_sobolev_loss
+    NOVA LÓGICA:
+      1) Encontra melhor resultado (por métrica combinada ou w_mse).
+      2) Define intervalo de ±20% em torno da loss desse melhor.
+      3) Seleciona todos os configs dentro desse intervalo.
+      4) Reexecuta a seleção APENAS nesses configs refinados.
+      5) Empate é desempato por sobolev_loss.
     """
+
+    print(f"\n[{timestamp()}] Iniciando seleção da melhor configuração...")
+
     if not results:
         raise ValueError("Nenhum resultado disponível para escolher o melhor.")
 
-    best: Optional[ExperimentResult] = None
-    for r in results:
-        if best is None:
-            best = r
-        else:
-            if r.metrics.best_val_w_mse < best.metrics.best_val_w_mse:
-                best = r
-            elif (
-                math.isclose(r.metrics.best_val_w_mse, best.metrics.best_val_w_mse, rel_tol=1e-8, abs_tol=0.0)
-                and r.metrics.best_val_sobolev_loss < best.metrics.best_val_sobolev_loss
-            ):
-                best = r
-    assert best is not None
-    return best
+    # --- PASSO 1: selecionar melhor resultado preliminar ---
+    if USE_COMBINED_METRIC:
+        print(f"[{timestamp()}] Usando MÉTRICA COMBINADA (w_mse + {BETA_SOB} * sobolev_loss)")
+        prelim_best = min(results, key=combined_metric)
+        prelim_score = combined_metric(prelim_best)
+        prelim_loss = prelim_best.metrics.best_val_w_mse
+    else:
+        print(f"[{timestamp()}] Usando MÉTRICA ORIGINAL (w_mse)")
+        prelim_best = min(results, key=lambda r: r.metrics.best_val_w_mse)
+        prelim_score = prelim_best.metrics.best_val_w_mse
+        prelim_loss = prelim_score
+
+    print(f"[{timestamp()}] Melhor preliminar:")
+    print(f"    w_mse   = {prelim_best.metrics.best_val_w_mse:.6e}")
+    print(f"    sobolev = {prelim_best.metrics.best_val_sobolev_loss:.6e}")
+    print(f"    score   = {prelim_score:.6e}")
+
+    # --- PASSO 2: determinar intervalo ±20% ---
+    lower = prelim_loss * (1 - REFINE_PERCENT)
+    upper = prelim_loss * (1 + REFINE_PERCENT)
+
+    print(f"\n[{timestamp()}] Intervalo de refino: [{lower:.6e}, {upper:.6e}]")
+
+    # --- PASSO 3: filtrar configs dentro desse intervalo ---
+    refined_candidates = [
+        r for r in results
+        if lower <= r.metrics.best_val_w_mse <= upper
+    ]
+
+    print(f"[{timestamp()}] {len(refined_candidates)} configs dentro do intervalo ±20%")
+
+    # Se só tem 1, já está decidido.
+    if len(refined_candidates) == 1:
+        print(f"[{timestamp()}] Apenas 1 candidato no intervalo. Selecionado diretamente.")
+        return refined_candidates[0]
+
+    # --- PASSO 4: refinar seleção APENAS entre esses candidatos ---
+    print(f"[{timestamp()}] Refinando seleção entre candidatos próximos...")
+
+    if USE_COMBINED_METRIC:
+        final_best = min(refined_candidates, key=combined_metric)
+        final_score = combined_metric(final_best)
+    else:
+        # Primeiro menor w_mse
+        cand_sorted = sorted(refined_candidates, key=lambda r: r.metrics.best_val_w_mse)
+
+        # Empate → sobolev_loss
+        final_best = min(
+            cand_sorted,
+            key=lambda r: (r.metrics.best_val_w_mse, r.metrics.best_val_sobolev_loss)
+        )
+        final_score = final_best.metrics.best_val_w_mse
+
+    print(f"\n[{timestamp()}] Melhor configuração após refino:")
+    print(f"    w_mse   = {final_best.metrics.best_val_w_mse:.6e}")
+    print(f"    sobolev = {final_best.metrics.best_val_sobolev_loss:.6e}")
+    print(f"    score   = {final_score:.6e}")
+    print(f"    (GPU usada: {final_best.params.device_id})")
+    print("============================================================\n")
+
+    return final_best
+
 
 
 def print_stage_summary(stage_name: str, results: List[ExperimentResult], best: ExperimentResult):
@@ -388,7 +449,7 @@ def etapa_3_lambda_theta(base: HyperParams, n_gpus: int) -> Tuple[HyperParams, L
     """
     print("\n===== ETAPA 3: varredura em lambda_theta =====")
 
-    lambdas = [2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+    lambdas = [2.0, 3.5, 5.0, 6.5, 8.0]
     configs: List[HyperParams] = []
     for lam in lambdas:
         cfg = HyperParams(
@@ -496,7 +557,7 @@ def etapa_6_weight_decay(base: HyperParams, n_gpus: int) -> Tuple[HyperParams, L
     """
     print("\n===== ETAPA 6: varredura em weight_decay =====")
 
-    wds = [0.0, 1e-6, 5e-6, 1e-5, 5e-5, 1e-4, 5e-4]
+    wds = [0.0, 1e-6, 5e-6, 1e-4, 5e-4]
     configs: List[HyperParams] = []
     for wd in wds:
         cfg = HyperParams(
@@ -538,7 +599,7 @@ def main():
 
     # Aqui você escolhe a política de MAX_WORKERS.
     # Para o caso atual (10k samples, 200 epochs), pode ser mais agressivo:
-    MAX_WORKERS = 2 * n_gpus
+    MAX_WORKERS = 1 * n_gpus
     print(f"MAX_WORKERS definido como {MAX_WORKERS}.")
 
     # Parâmetros iniciais (aqueles definidos por você para 2500 samples,
@@ -580,12 +641,12 @@ def main():
     print("================================================================\n")
 
     # Salvar todas as combinações testadas em um JSON
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
     # Diretório fixo para salvar resultados
     SAVE_DIR = "/workspace/treinamentos/hypersearch"
     os.makedirs(SAVE_DIR, exist_ok=True)
     
-    filename = os.path.join(SAVE_DIR, f"hypersearch_results_{timestamp}.json")
+    filename = os.path.join(SAVE_DIR, f"hypersearch_results_{timestamp_str}.json")
     
     with open(filename, "w") as f:
         json.dump(ALL_EXPERIMENTS, f, indent=2)

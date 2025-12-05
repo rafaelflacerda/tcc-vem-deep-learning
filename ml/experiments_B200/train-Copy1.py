@@ -67,7 +67,6 @@ def sobolev_loss(y_pred, y_true, lambda_theta=1.0):
     # Retorna a soma ponderada
     return loss_w + (lambda_theta * loss_theta)
 
-
 def main(args):
     # Pega LR e batch_size da linha de comando
     LR = args.LR_inicial
@@ -78,6 +77,7 @@ def main(args):
     DROPOUT_P = args.dropout
     WEIGHT_DECAY = args.weight_decay
     EPOCHS = args.epochs
+    DISABLE_ARTIFACTS = args.disable_artifacts
 
 
     print(f" Iniciando treinamento em: {DEVICE}")
@@ -87,13 +87,10 @@ def main(args):
     # --------------------------------------------------
     # 1. Carregar Dados (medir tempo)
     # --------------------------------------------------
-    t0 = time.perf_counter()
     full_dataset = PreprocessedBeamDataset(
         PREPROC_NPZ,
         scalers_path=SCALERS_NPZ  # opcional, mas útil se você quiser usar depois
     )
-    t1 = time.perf_counter()
-    print(f"[TIMER] Carregar PreprocessedBeamDataset: {t1 - t0:.3f} s")
 
     # Split 80/20
     train_size = int(0.8 * len(full_dataset))
@@ -105,7 +102,6 @@ def main(args):
     # --------------------------------------------------
     # 2. DataLoaders (medir tempo)
     # --------------------------------------------------
-    t2 = time.perf_counter()
     train_loader = DataLoader(
         train_data, 
         batch_size=BATCH_SIZE, 
@@ -124,8 +120,6 @@ def main(args):
         pin_memory=True,
         persistent_workers=False
     )
-    t3 = time.perf_counter()
-    print(f"[TIMER] Criar DataLoaders: {t3 - t2:.3f} s")
     
     print(f" Dados: {len(full_dataset)} pontos totais")
     print(f" Treino: {train_size} | Validação Interna: {val_size}")
@@ -133,10 +127,7 @@ def main(args):
     # --------------------------------------------------
     # 3. Pegar primeiro batch (pra medir overhead inicial)
     # --------------------------------------------------
-    t4 = time.perf_counter()
     first_batch = next(iter(train_loader))
-    t5 = time.perf_counter()
-    print(f"[TIMER] Pegar primeiro batch do DataLoader: {t5 - t4:.3f} s")
 
     # 4. Modelo e Otimizador
     model = BeamNet(
@@ -171,13 +162,9 @@ def main(args):
     X_test, _ = first_batch
     X_test = X_test.cuda(non_blocking=True)
 
-    t6 = time.perf_counter()
     with torch.no_grad():
         with autocast("cuda", dtype=torch.bfloat16):
             _ = model(X_test)
-    torch.cuda.synchronize()
-    t7 = time.perf_counter()
-    print(f"[TIMER] Primeiro forward na GPU (init CUDA/cuDNN): {t7 - t6:.3f} s")
 
     loss_history = {'train': [], 'val': []}
     epoch_times = []
@@ -194,59 +181,30 @@ def main(args):
     for epoch in range(EPOCHS):
         model.train()
         train_loss = 0.0
-
-        # timers por época
-        data_time = 0.0
-        fwd_time = 0.0
-        bwd_time = 0.0
-        step_time = 0.0
-
         epoch_start = time.perf_counter()
         
         for X_batch, y_batch in train_loader:
-            # -----------------------------
-            # Data + to(device)
-            # -----------------------------
-            t_d0 = time.perf_counter()
             X_batch = X_batch.cuda(non_blocking=True)
             y_batch = y_batch.cuda(non_blocking=True)
-            torch.cuda.synchronize()
-            t_d1 = time.perf_counter()
-            data_time += (t_d1 - t_d0)
             
             optimizer.zero_grad(set_to_none=True)
             
-            # -----------------------------
-            # Forward
-            # -----------------------------
-            t_f0 = time.perf_counter()
             with autocast("cuda", dtype=torch.bfloat16):
                 y_pred = model(X_batch)
                 loss = sobolev_loss(y_pred, y_batch, lambda_theta=LAMBDA_THETA)
-            torch.cuda.synchronize()
-            t_f1 = time.perf_counter()
-            fwd_time += (t_f1 - t_f0)
 
             # -----------------------------
             # Backward
             # -----------------------------
-            t_b0 = time.perf_counter()
             scaler.scale(loss).backward()
             scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
-            torch.cuda.synchronize()
-            t_b1 = time.perf_counter()
-            bwd_time += (t_b1 - t_b0)
 
             # -----------------------------
             # Step do otimizador
             # -----------------------------
-            t_s0 = time.perf_counter()
             scaler.step(optimizer)
             scaler.update()
-            torch.cuda.synchronize()
-            t_s1 = time.perf_counter()
-            step_time += (t_s1 - t_s0)
             
             train_loss += loss.item()
             
@@ -310,10 +268,6 @@ def main(args):
             f"val_w_mse: {avg_val_w_mse:.6e} | "
             f"LR: {current_lr:.2e} || "
             f"total: {total_epoch_time:.3f}s | "
-            f"data: {data_time:.3f}s | "
-            f"fwd: {fwd_time:.3f}s | "
-            f"bwd: {bwd_time:.3f}s | "
-            f"step: {step_time:.3f}s"
         )
 
     # --------------------------------------------------
@@ -332,27 +286,30 @@ def main(args):
     print(f"tempo_medio_por_epoch  = {tempo_medio_por_epoch:.3f} s")
     print("=========================================================\n")
 
+    # 8. Salvar Modelo
+    if not DISABLE_ARTIFACTS:
+        # 8. Salvar Modelo
+        torch.save(model.state_dict(), f"{DATASET_PATH}/beamnet_model.pth")
+        print("💾 Modelo salvo!")
+    
+        # 9. Plotar Loss
+        plt.figure(figsize=(8, 5))
+        plt.plot(loss_history['train'], label='Treino')
+        plt.plot(loss_history['val'], label='Validação')
+        plt.yscale('log')
+        plt.title(f'Curva de Convergência (Sobolev Lambda = {LAMBDA_THETA})')
+        plt.xlabel('Épocas')
+        plt.ylabel('Loss Ponderada')
+        plt.legend()
+        plt.grid(True, which="both", ls="--")
+        plt.savefig(f"{DATASET_PATH}/training_loss.png")
+        print("📊 Gráfico de Loss salvo!")
+    else:
+        print("🔎 Modo hypersearch: modelo e gráfico NÃO foram salvos.")
+
     # >>> ÚNICA MUDANÇA PEDIDA: LINHA NO FORMATO CSV <<<
     print("best_val_sobolev_loss;best_val_w_mse;epoch_of_best_val;final_val_sobolev_loss;final_val_w_mse;tempo_medio_por_epoch")
     print(f"{best_val_sobolev_loss};{best_val_w_mse};{epoch_of_best_val};{final_val_sobolev_loss};{final_val_w_mse};{tempo_medio_por_epoch}")
-
-    # 8. Salvar Modelo
-    torch.save(model.state_dict(), f"{DATASET_PATH}/beamnet_model.pth")
-    print("💾 Modelo salvo!")
-
-    # 9. Plotar Loss
-    plt.figure(figsize=(8, 5))
-    plt.plot(loss_history['train'], label='Treino')
-    plt.plot(loss_history['val'], label='Validação')
-    plt.yscale('log')
-    plt.title(f'Curva de Convergência (Sobolev Lambda = {LAMBDA_THETA})')
-    plt.xlabel('Épocas')
-    plt.ylabel('Loss Ponderada')
-    plt.legend()
-    plt.grid(True, which="both", ls="--")
-    plt.savefig(f"{DATASET_PATH}/training_loss.png")
-    print("📊 Gráfico de Loss salvo!")
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -392,6 +349,11 @@ if __name__ == "__main__":
         "--epochs",
         type = int,
         default = 200
+    )
+    parser.add_argument(
+        "--disable_artifacts",
+        action="store_true",
+        help="Se passado, não salva modelo nem gráfico (usado no hypersearch).",
     )
      
     args = parser.parse_args()
