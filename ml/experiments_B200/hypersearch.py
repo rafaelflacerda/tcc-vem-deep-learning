@@ -14,7 +14,7 @@ import torch  # para detectar quantas GPUs existem
 # CONFIGURAÇÕES GERAIS
 # ============================================================
 
-TRAIN_SCRIPT = "train.py"  # caminho para o seu script de treino
+TRAIN_SCRIPT = "train-Copy1.py"  # caminho para o seu script de treino
 
 # Valores base (herdados do caso com 2500 samples, adaptados para 10000)
 BASE_N_SAMPLES = 10000    # só informativo (o train.py usa N_SAMPLES fixo)
@@ -581,11 +581,15 @@ def main():
 
     # Salvar todas as combinações testadas em um JSON
     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    filename = f"hypersearch_results_{timestamp}.json"
-
+    # Diretório fixo para salvar resultados
+    SAVE_DIR = "/workspace/treinamentos/hypersearch"
+    os.makedirs(SAVE_DIR, exist_ok=True)
+    
+    filename = os.path.join(SAVE_DIR, f"hypersearch_results_{timestamp}.json")
+    
     with open(filename, "w") as f:
         json.dump(ALL_EXPERIMENTS, f, indent=2)
-
+    
     print(f"✅ Resultados de todas as combinações salvos em: {filename}")
 
 

@@ -18,36 +18,18 @@ PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
 
 # Caminho para o dataset
 N_SAMPLES = 10000
-NPZ_FILE = os.path.join(
-    PROJECT_ROOT,
-    "00_PROBLEMA_UNIDIMENSIONAL",
-    "dataset",
-    "npz",
-    f"beam_dataset_{N_SAMPLES}_samples.npz"
-)
 
 DATASET_NAME = "dataset_viga1D_" + str(N_SAMPLES) + "_samples"
 DATASET_PATH = os.path.join(
-    PROJECT_ROOT,
-    "00_PROBLEMA_UNIDIMENSIONAL",
+    "/workspace",
     "treinamentos",
     DATASET_NAME
 )
 
 os.makedirs(DATASET_PATH, exist_ok=True)
 
-RAW_NPZ_DIR = os.path.join(
-    PROJECT_ROOT,
-    "00_PROBLEMA_UNIDIMENSIONAL",
-    "dataset",
-    "npz"
-)
-PREPROC_DIR = os.path.join(
-    PROJECT_ROOT,
-    "00_PROBLEMA_UNIDIMENSIONAL",
-    "dataset",
-    "npz_preprocessed"
-)
+RAW_NPZ_DIR = "/workspace/dataset/npz"
+PREPROC_DIR = "/workspace/dataset/npz_preprocessed"
 
 PREPROC_NPZ = os.path.join(
     PREPROC_DIR,
