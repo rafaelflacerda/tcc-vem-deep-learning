@@ -12,34 +12,33 @@ from dataloader import PreprocessedBeamDataset
 from torch.optim.lr_scheduler import CosineAnnealingLR
 from torch.amp import autocast, GradScaler
 
-# --- Configurações de Caminho Robustas ---
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
 
-# Caminho para o dataset
 N_SAMPLES = 10000
 
-DATASET_NAME = "dataset_viga1D_" + str(N_SAMPLES) + "_samples"
-DATASET_PATH = os.path.join(
-    "/workspace",
-    "treinamentos",
-    DATASET_NAME
-)
-
-os.makedirs(DATASET_PATH, exist_ok=True)
-
-RAW_NPZ_DIR = "/workspace/dataset/npz"
-PREPROC_DIR = "/workspace/dataset/npz_preprocessed"
+BASE_DIR = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
 
 PREPROC_NPZ = os.path.join(
-    PREPROC_DIR,
+    BASE_DIR,
+    "00_PROBLEMA_UNIDIMENSIONAL",
+    "dataset",
     f"beam_dataset_{N_SAMPLES}_samples_preproc.npz"
 )
 
 SCALERS_NPZ = os.path.join(
-    PREPROC_DIR,
+    BASE_DIR,
+    "00_PROBLEMA_UNIDIMENSIONAL",
+    "dataset",
     f"beam_scalers_{N_SAMPLES}_samples.npz"
 )
+
+DATASET_PATH = os.path.join(
+    BASE_DIR,
+    "00_PROBLEMA_UNIDIMENSIONAL",
+    "treinamentos",
+    f"beam_dataset_{N_SAMPLES}_samples"
+)
+
+os.makedirs(DATASET_PATH, exist_ok=True)
 
 # --- Configuração de Hardware ---
 DEVICE = "cuda"

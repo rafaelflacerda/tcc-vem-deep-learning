@@ -13,6 +13,8 @@ import torch  # para detectar quantas GPUs existem
 # CONFIGURAÇÕES GERAIS
 # ============================================================
 
+BASE_DIR = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, os.pardir))
+
 # ===== CONFIGURAÇÕES DOS NOVOS CRITÉRIOS =====
 USE_COMBINED_METRIC = True       # se False, usa lógica antiga
 BETA_SOB = 0.25                  # peso da sobolev loss na métrica combinada
@@ -36,7 +38,6 @@ BASE_LR_INICIAL = 0.0014
 #   - cenários muito pesados: MAX_WORKERS = N_GPUS
 # Aqui vamos configurar dinamicamente no main() com base em N_GPUS.
 MAX_WORKERS = 1  # será sobrescrito no main()
-
 
 # ============================================================
 # ESTRUTURA DE PARÂMETROS E MÉTRICAS
@@ -643,9 +644,14 @@ def main():
     # Salvar todas as combinações testadas em um JSON
     timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
     # Diretório fixo para salvar resultados
-    SAVE_DIR = "/workspace/treinamentos/hypersearch"
+
+    SAVE_DIR = os.path.join(
+        BASE_DIR,
+        "00_PROBLEMA_UNIDIMENSIONAL",
+        "treinamentos"
+    )
     os.makedirs(SAVE_DIR, exist_ok=True)
-    
+
     filename = os.path.join(SAVE_DIR, f"hypersearch_results_{timestamp_str}.json")
     
     with open(filename, "w") as f:
