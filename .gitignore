@@ -72,3 +72,8 @@ ehthumbs.db
 .tmp.driveupload/
 
 .tmp.drivedownload/
+
+# Ignorar apenas o conteúdo da pasta dataset dentro de s3_files
+s3_files/dataset/*
+!s3_files/dataset/.gitkeep
+

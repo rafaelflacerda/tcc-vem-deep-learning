@@ -5,16 +5,16 @@ from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 import os
 from models import BeamNet, BeamNetLarge
-from dataloader import OptimizedBeamDataset, save_scalers
-from torch.optim.lr_scheduler import ReduceLROnPlateau, LambdaLR, SequentialLR, CosineAnnealingLR
-from torch.cuda.amp import autocast, GradScaler
+from dataloader import PreprocessedBeamDataset
+from torch.optim.lr_scheduler import CosineAnnealingLR
+from torch.amp import autocast, GradScaler
 
 # --- Configurações de Caminho Robustas ---
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, "..", ".."))
 
 # Caminho para o dataset
-N_SAMPLES = 2500
+N_SAMPLES = 5000
 NPZ_FILE = os.path.join(PROJECT_ROOT, "00_PROBLEMA_UNIDIMENSIONAL", "dataset", "npz", f"beam_dataset_{N_SAMPLES}_samples.npz")
 
 DATASET_NAME = "dataset_viga1D_" + str(N_SAMPLES) + "_samples"
@@ -22,25 +22,34 @@ DATASET_PATH = os.path.join(PROJECT_ROOT, "00_PROBLEMA_UNIDIMENSIONAL", "treinam
 
 os.makedirs(DATASET_PATH, exist_ok=True)
 
+RAW_NPZ_DIR   = os.path.join(PROJECT_ROOT, "00_PROBLEMA_UNIDIMENSIONAL", "dataset", "npz")
+PREPROC_DIR   = os.path.join(PROJECT_ROOT, "00_PROBLEMA_UNIDIMENSIONAL", "dataset", "npz_preprocessed")
+
+PREPROC_NPZ = os.path.join(
+    PREPROC_DIR,
+    f"beam_dataset_{N_SAMPLES}_samples_preproc.npz"
+)
+
+SCALERS_NPZ = os.path.join(
+    PREPROC_DIR,
+    f"beam_scalers_{N_SAMPLES}_samples.npz"
+)
+
 # --- Configurações ---
-EPOCHS = 1000
+EPOCHS = 100
 BATCH_SIZE = 256 #256
 
 LR = 1e-3
-FACTOR = 0.5
-PATIENCE = 50 # testar 25
 MIN_LR = 1e-6
-
-LAMBDA_THETA = 10.0 # Peso da Derivada (Sobolev): Aumente se a rotação estiver imprecisa
+WEIGHT_DECAY = 5e-5
 
 HIDDEN_DIM = 512
-DROPOUT_P = 0.15 # TESTAR 0.08 e 0.12
+DROPOUT_P = 0.08 # TESTAR 0.08 e 0.12
+
+LAMBDA_THETA = 5.0 # Peso da Derivada (Sobolev): Aumente se a rotação estiver imprecisa
 
 # --- Configuração de Hardware ---
 DEVICE = "cuda"
-torch.backends.cudnn.benchmark = True
-torch.backends.cuda.matmul.allow_tf32 = True
-torch.set_float32_matmul_precision('high')
 
 # ============================================================
 # NOVA FUNÇÃO DE PERDA: SOBOLEV DE 1ª ORDEM
@@ -70,11 +79,11 @@ def main():
     print(f" Usando Sobolev Loss com Lambda_Theta = {LAMBDA_THETA}")
     
     # 1. Carregar Dados
-    full_dataset = OptimizedBeamDataset(NPZ_FILE)
-    save_scalers(full_dataset.X_mean, full_dataset.X_std, 
-             full_dataset.y_mean, full_dataset.y_std,
-             f"{DATASET_PATH}/scalers.pkl")
-    
+    full_dataset = PreprocessedBeamDataset(
+        PREPROC_NPZ,
+        scalers_path=SCALERS_NPZ  # opcional, mas útil se você quiser usar depois
+    )
+
     # Split 80/20
     train_size = int(0.8 * len(full_dataset))
     val_size = len(full_dataset) - train_size
@@ -86,6 +95,7 @@ def main():
         shuffle=True,
         num_workers=0,
         pin_memory=True,
+        persistent_workers=False,
         drop_last=True
     )
 
@@ -94,7 +104,8 @@ def main():
         batch_size=BATCH_SIZE, 
         shuffle=False,
         num_workers=0,
-        pin_memory=True
+        pin_memory=True,
+        persistent_workers=False
     )
     
     print(f" Dados: {len(full_dataset)} pontos totais")
@@ -102,33 +113,24 @@ def main():
 
     # 2. Modelo e Otimizador
     model = BeamNet(input_dim=5, output_dim=2, hidden_dim=HIDDEN_DIM, dropout_p=DROPOUT_P).to(DEVICE)
-    #odel = BeamNetLarge(input_dim=5, output_dim=2, hidden_dim=HIDDEN_DIM, dropout_p=DROPOUT_P).to(DEVICE)
-    model = torch.compile(model, mode="max-autotune")
+    #model = BeamNetLarge(input_dim=5, output_dim=2, hidden_dim=HIDDEN_DIM, dropout_p=DROPOUT_P).to(DEVICE)
+    #model = torch.compile(model, mode="max-autotune-no-cudagraphs")
+    #model = torch.compile(model)
 
-    optimizer = optim.AdamW(model.parameters(), lr=LR)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WEIGHT_DECAY)
     
-    scaler = GradScaler()
-    
-    # ============================================================
-    # SCHEDULERS: WARMUP + MAIN
-    # ============================================================
-    warmup_epochs = 1  # ✅ CORRIGIDO: 10 épocas é suficiente
-    
-    # Warmup: vai de 0 até 1.0 (multiplicando o LR base)
-    warmup_scheduler = LambdaLR(
+    scaler = GradScaler("cuda")
+
+    # Scheduler principal: Cosine Annealing (amigável pra torch.compile)
+    scheduler = CosineAnnealingLR(
         optimizer,
-        lr_lambda=lambda epoch: min(1.0, (epoch + 1) / warmup_epochs)
+        T_max=EPOCHS,     # período completo do cosseno
+        eta_min=MIN_LR    # LR mínimo
     )
-    
-    # Main scheduler: ReduceLROnPlateau para ajuste fino
-    main_scheduler = ReduceLROnPlateau(
-        optimizer, 
-        mode='min', 
-        factor=FACTOR, 
-        patience=PATIENCE, 
-        min_lr=MIN_LR
-    )
-    
+
+    def sched_step():
+        scheduler.step()
+
     loss_history = {'train': [], 'val': []}
 
     # 3. Loop de Treino
@@ -143,7 +145,7 @@ def main():
             
             optimizer.zero_grad(set_to_none=True)
             
-            with autocast(dtype=torch.bfloat16):
+            with autocast("cuda", dtype=torch.bfloat16):
                 y_pred = model(X_batch)
                 loss = sobolev_loss(y_pred, y_batch, lambda_theta = LAMBDA_THETA)
                 
@@ -166,24 +168,16 @@ def main():
                 X_batch = X_batch.cuda(non_blocking=True)
                 y_batch = y_batch.cuda(non_blocking=True)
                 
-                with autocast(dtype=torch.bfloat16):
+                with autocast("cuda", dtype=torch.bfloat16):
                     y_pred = model(X_batch)
                     loss = sobolev_loss(y_pred, y_batch, lambda_theta=LAMBDA_THETA)
                     
                 val_loss += loss.item()
                 
         avg_val_loss = val_loss / len(val_loader)
-        
-        # ============================================================
-        # ✅ SCHEDULER CORRIGIDO: ESCOLHER APENAS UM POR ÉPOCA
-        # ============================================================
-        if epoch < warmup_epochs:
-            warmup_scheduler.step()
-            current_lr = optimizer.param_groups[0]['lr']
-            print(f" Warmup Epoch {epoch+1}/{warmup_epochs} | LR: {current_lr:.2e}")
-        else:
-            main_scheduler.step(avg_val_loss)
-            current_lr = optimizer.param_groups[0]['lr']
+
+        sched_step()
+        current_lr = optimizer.param_groups[0]['lr']
         
         loss_history['train'].append(avg_train_loss)
         loss_history['val'].append(avg_val_loss)
