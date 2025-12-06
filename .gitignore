@@ -1,83 +1,48 @@
-# --- C++ / CMake Build Files ---
-/CMakeFiles/
-/Makefile
-/CMakeCache.txt
-/cmake_install.cmake
-/lib/*/CMakeFiles/
-/lib/*/Makefile
-/lib/*/cmake_install.cmake
-# Ignora a pasta de build inteira (onde ficam os executáveis)
-build/
-bin/
-
-# --- Data & Outputs ---
-# Garante que datasets e resultados não subam
-/data/_output/*
-output/
-*.csv
-*.xlsx
-
-# --- Python / Deep Learning ---
+# ======================================================
+#   PYTHON
+# ======================================================
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
 .Python
 .pytest_cache/
 .coverage
 htmlcov/
-# Ignora ambientes virtuais (vários nomes comuns)
+.ipynb_checkpoints/
 
-# --- Model Weights & Scalers (SEGURANÇA EXTRA) ---
-# Evita subir modelos pesados se você salvar fora da pasta output
-*.pth
+# ======================================================
+#   AMBIENTES VIRTUAIS
+# ======================================================
+.venv/
+venv/
+env/
+
+# ======================================================
+#   MODELOS & PESOS
+# ======================================================
 *.pt
-*.pkl
+*.pth
 *.ckpt
+*.pkl
 
-# --- Packaging ---
-*.egg-info/
-*.egg
-dist/
-middleware/build/
-middleware/dist/
-
-# --- Compiled Modules (Python/C++ bind) ---
-middleware/polivem/*.so
-middleware/polivem/*.dylib
-middleware/polivem/*.pyd
-middleware/polivem/polivem_py.*
-
-# --- IDEs & OS ---
-/.vscode/
+# ======================================================
+#   IDEs / SISTEMA OPERACIONAL
+# ======================================================
+.vscode/
 .idea/
 .DS_Store
-.ipynb_checkpoints
-
-# --- Lixo do Windows (Necessário pois você vai para Windows) ---
 Thumbs.db
 ehthumbs.db
 
-# --- Binários do Windows (Como seu projeto tem C++/Middleware) ---
-*.dll
-*.exe
-
+# ======================================================
+#   RUNPOD / TEMPORÁRIOS
+# ======================================================
 .tmp.driveupload/
-
 .tmp.drivedownload/
+*.tmp
 
-00_URGENTE/
-
-examples/
-
-
-gmsh/
-
-docs/
-
-*.npz
-
+# ======================================================
+#   ARQUIVOS ANTIGOS / LEGADOS QUE NÃO DEVEM SUBIR
+# ======================================================
 ml/experiments_NEW/
 ml/experiments_OLD_OLD/
-
-.venv/
