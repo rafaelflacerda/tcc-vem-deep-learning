@@ -46,3 +46,6 @@ ehthumbs.db
 # ======================================================
 ml/experiments_NEW/
 ml/experiments_OLD_OLD/
+
+dataset/*
+!dataset/*/

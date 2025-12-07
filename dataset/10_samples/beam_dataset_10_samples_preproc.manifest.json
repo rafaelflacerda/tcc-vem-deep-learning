@@ -1,0 +1,15 @@
+{
+  "original_filename": "beam_dataset_10_samples_preproc.npz",
+  "original_size": 29890,
+  "original_checksum": "5af7b1018ace1435976859dd02b4ccc6",
+  "chunk_size_mb": 50,
+  "total_chunks": 1,
+  "chunks": [
+    {
+      "index": 0,
+      "filename": "beam_dataset_10_samples_preproc.part000",
+      "size": 29890,
+      "checksum": "5af7b1018ace1435976859dd02b4ccc6"
+    }
+  ]
+}

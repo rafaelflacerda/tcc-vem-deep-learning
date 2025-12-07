@@ -1,0 +1,21 @@
+{
+  "original_filename": "beam_dataset_25000_samples_preproc.npz",
+  "original_size": 73500490,
+  "original_checksum": "5951edca54479f293188099e27c84fc7",
+  "chunk_size_mb": 50,
+  "total_chunks": 2,
+  "chunks": [
+    {
+      "index": 0,
+      "filename": "beam_dataset_25000_samples_preproc.part000",
+      "size": 52428800,
+      "checksum": "0f7e3017683c03ad1480d092a3f16dfd"
+    },
+    {
+      "index": 1,
+      "filename": "beam_dataset_25000_samples_preproc.part001",
+      "size": 21071690,
+      "checksum": "7bb3d4c10909417e250949e4ad933522"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "original_filename": "beam_dataset_100000_samples_preproc.npz",
+  "original_size": 294000490,
+  "original_checksum": "943923242ba34220f8f5975503fdac41",
+  "chunk_size_mb": 50,
+  "total_chunks": 6,
+  "chunks": [
+    {
+      "index": 0,
+      "filename": "beam_dataset_100000_samples_preproc.part000",
+      "size": 52428800,
+      "checksum": "db4d04f26affcbb512c1dc5aa7de0f79"
+    },
+    {
+      "index": 1,
+      "filename": "beam_dataset_100000_samples_preproc.part001",
+      "size": 52428800,
+      "checksum": "cbe7d6d505da4dbf319bebccf2a23ea3"
+    },
+    {
+      "index": 2,
+      "filename": "beam_dataset_100000_samples_preproc.part002",
+      "size": 52428800,
+      "checksum": "afde5f1b18b255ad49885b06571a9ad0"
+    },
+    {
+      "index": 3,
+      "filename": "beam_dataset_100000_samples_preproc.part003",
+      "size": 52428800,
+      "checksum": "2a6c0546031e9392c717ac59001b286c"
+    },
+    {
+      "index": 4,
+      "filename": "beam_dataset_100000_samples_preproc.part004",
+      "size": 52428800,
+      "checksum": "58ee5db5c6146512ee87f8cf840807e0"
+    },
+    {
+      "index": 5,
+      "filename": "beam_dataset_100000_samples_preproc.part005",
+      "size": 31856490,
+      "checksum": "8d7003dde9253972ec86cbee4667fc18"
+    }
+  ]
+}
