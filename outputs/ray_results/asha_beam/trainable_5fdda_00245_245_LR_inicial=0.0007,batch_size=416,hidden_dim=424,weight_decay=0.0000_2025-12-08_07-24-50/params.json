@@ -1,0 +1,9 @@
+{
+  "LR_inicial": 0.0006908057753343421,
+  "batch_size": 416,
+  "epochs": 300,
+  "hidden_dim": 424,
+  "lambda_theta": 1,
+  "n_samples": 10000,
+  "weight_decay": 1.550998439866777e-05
+}
